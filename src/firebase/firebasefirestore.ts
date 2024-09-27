@@ -2,11 +2,11 @@ import {
   addDoc,
   collection,
   doc,
-  getDocs,
+  // getDocs,
   getFirestore,
-  query,
+  // query,
   setDoc,
-  where,
+  // where,
 } from "firebase/firestore";
 import { app } from "./firebaseconfig";
 import { auth } from "./firebaseauth";
@@ -35,43 +35,43 @@ export async function saveUser(user: UserType) {
   }
 }
 
-export async function saveTodo(todo: string) {
+export async function saveExpense(title: string, amount : number, date:Date ,category:string, note:string,) {
   // collection(db, "collectionName")
   // addDoc("where", "what");
 
   const uid = auth.currentUser?.uid;
-  const newTodo = { todo, uid };
+  const newTodo = { title, uid, amount,date, category,note };
 
   try {
-    const collectionRef = collection(db, "todos");
+    const collectionRef = collection(db, "expenses");
     await addDoc(collectionRef, newTodo);
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function fetchTodos() {
-  // const docRef = doc(db, "collectionName", "docID");
-  // await getDoc(docRef);
+// export async function fetchExpenses() {
+//   // const docRef = doc(db, "collectionName", "docID");
+//   // await getDoc(docRef);
 
-  // const collectionRef = collection(db, "collectionName");
-  // query(where, condition)
-  // await getDocs(collectionRef);
+//   // const collectionRef = collection(db, "collectionName");
+//   // query(where, condition)
+//   // await getDocs(collectionRef);
 
-  const collectionRef = collection(db, "todos");
-  const currentUserUID = auth.currentUser?.uid;
+//   const collectionRef = collection(db, "expenses");
+//   const currentUserUID = auth.currentUser?.uid;
 
-  const condition = where("uid", "==", currentUserUID);
-  const q = query(collectionRef, condition);
+//   const condition = where("uid", "==", currentUserUID);
+//   const q = query(collectionRef, condition);
 
-  const allTodosSnapshot = await getDocs(q);
+//   const allTodosSnapshot = await getDocs(q);
 
-  const allTodos = allTodosSnapshot.docs.map((todoSnapshot) => {
-    const todo = todoSnapshot.data();
-    todo.id = todoSnapshot.id;
-    return todo
-  })
-  return allTodos;
+//   const allTodos = allTodosSnapshot.docs.map((todoSnapshot) => {
+//     const todo = todoSnapshot.data();
+//     todo.id = todoSnapshot.id;
+//     return todo
+//   })
+//   return allTodos;
 
 
 
@@ -84,4 +84,4 @@ export async function fetchTodos() {
 
 
 
-}
+// }
