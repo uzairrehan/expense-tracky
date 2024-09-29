@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction  } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 
 export type userSaveType = {
   email: string | null;
@@ -29,3 +29,18 @@ export type UserType = {
   studentName: string;
   uid: string;
 };
+
+
+
+export type UserTypee = {
+  email: string | null,
+  uid: string
+}
+
+export type AuthContextProviderType = {
+  children: ReactNode
+}
+
+export type AuthContextType = {
+  user: UserTypee | null
+}

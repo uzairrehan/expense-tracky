@@ -1,13 +1,4 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  // getDocs,
-  getFirestore,
-  // query,
-  setDoc,
-  // where,
-} from "firebase/firestore";
+import { addDoc, collection, deleteDoc,doc, getFirestore,setDoc, updateDoc,} from "firebase/firestore";
 import { app } from "./firebaseconfig";
 import { auth } from "./firebaseauth";
 import { UserType } from "@/types/types";
@@ -16,13 +7,8 @@ export const db = getFirestore(app);
 
 
 
+
 export async function saveUser(user: UserType) {
-  //   const docRef = doc(db, "collectionName", "docID");
-  //   await setDoc(docRef, user);
-
-  //   const collectionRef = collection(db, "collectionName");
-  //   await addDoc(collectionRef, user);
-
   try {
     const docRef = doc(db, "users", user.uid);
     await setDoc(docRef, user);
@@ -31,54 +17,26 @@ export async function saveUser(user: UserType) {
   }
 }
 
-export async function saveExpense(title: string, amount : number, date:Date ,category:string, note:string,) {
-  // collection(db, "collectionName")
-  // addDoc("where", "what");
 
+
+export async function saveExpense(title: string, amount: number, date: Date, category: string, note: string) {
   const uid = auth.currentUser?.uid;
-  const newExpense = { title, uid,amount,date, category,note };
-
+  const collectionRef = collection(db, "expenses");
   try {
-    const collectionRef = collection(db, "expenses");
-    await addDoc(collectionRef, newExpense);
-    console.log(newExpense);
+    const newExpense = { title, uid, amount, date, category, note };
+    const docRef = await addDoc(collectionRef, newExpense);
+    const docRefToUpdate = doc(db, "expenses", docRef.id);
+    await updateDoc(docRefToUpdate, {
+      firebaseID: docRef.id
+    });
   } catch (error) {
     console.log(error);
   }
 }
 
-// export async function fetchExpenses() {
-//   // const docRef = doc(db, "collectionName", "docID");
-//   // await getDoc(docRef);
-
-//   // const collectionRef = collection(db, "collectionName");
-//   // query(where, condition)
-//   // await getDocs(collectionRef);
-
-//   const collectionRef = collection(db, "expenses");
-//   const currentUserUID = auth.currentUser?.uid;
-
-//   const condition = where("uid", "==", currentUserUID);
-//   const q = query(collectionRef, condition);
-
-//   const allTodosSnapshot = await getDocs(q);
-
-//   const allTodos = allTodosSnapshot.docs.map((todoSnapshot) => {
-//     const todo = todoSnapshot.data();
-//     todo.id = todoSnapshot.id;
-//     return todo
-//   })
-//   return allTodos;
 
 
-
-
-  // allTodosSnapshot.forEach((todo) => {
-  //   const todoData = todo.data();
-  //   todoData.id = todo.id;
-  //   console.log(todoData);
-  // });
-
-
-
-// }
+export async function deleteExpense(firebaseID: string) {
+  await deleteDoc(doc(db, "expenses", firebaseID));
+  console.log(firebaseID)
+}

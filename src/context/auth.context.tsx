@@ -1,28 +1,16 @@
 "use client";
 
 import { app } from "@/firebase/firebaseconfig";
+import { AuthContextProviderType, AuthContextType, UserTypee } from "@/types/types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
-
-type UserType = {
-    email: string | null,
-    uid: string
-}
-
-type AuthContextProviderType = {
-    children: ReactNode
-}
-
-type AuthContextType = {
-    user: UserType | null
-}
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthContextProvider({ children }: AuthContextProviderType) {
-    const [user, setUser] = useState<UserType | null>(null);
+    const [user, setUser] = useState<UserTypee | null>(null);
 
     const route = useRouter();
 
