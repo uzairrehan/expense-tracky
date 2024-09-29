@@ -9,7 +9,7 @@ interface ToastProps {
     message: string;
 }
 
-function Toast({ messageInToast, typeOfColor, message }: ToastProps) {
+export function Toast({ messageInToast, typeOfColor, message }: ToastProps) {
     // Initialize toasts state as an empty array with proper typing
     const [toasts, setToasts] = useState<Array<{ message: string; type: string }>>([]);
 

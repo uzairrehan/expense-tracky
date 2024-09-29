@@ -197,3 +197,110 @@ a {
 .logout-btn:hover {
   background-color: #d32f2f; /* Darker red on hover */
 }
+/* Base Styles */
+.expense-container {
+  max-width: 800px; /* Set a max width for larger screens */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Add some padding */
+  font-family: Arial, sans-serif; /* Set a font */
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100px; /* Adjust based on your design */
+  font-size: 20px;
+}
+
+.expense-list {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+}
+
+.expense-item {
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 15px; /* Inner padding */
+  margin-bottom: 15px; /* Space between items */
+  /* background-color: #f9f9f9; Background color */
+  transition: box-shadow 0.3s; /* Smooth transition for hover effect */
+}
+
+.expense-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow on hover */
+}
+
+.expense-title,
+.expense-amount,
+.expense-category,
+.expense-date,
+.expense-note {
+  margin-bottom: 10px; /* Space between lines */
+}
+
+.expense-delete,
+.expense-edit {
+  display: flex;
+  justify-content: space-between; /* Space between buttons */
+}
+
+/* Button Styles */
+button {
+  /* background-color: #ff4d4d; Delete button color */
+  /* color: white; Text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Inner padding */
+  cursor: pointer; /* Pointer cursor on hover */
+  transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+button:hover {
+  /* background-color: #ff1a1a; Darker shade on hover */
+}
+
+/* Link Styles */
+a {
+  text-decoration: none; /* Remove underline */
+  /* color: #007bff; Link color */
+  padding: 10px; /* Padding around links */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s; /* Smooth transition */
+}
+
+a:hover {
+  /* background-color: rgba(0, 123, 255, 0.1); Light background on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .expense-container {
+      padding: 10px; /* Reduce padding on smaller screens */
+  }
+
+  .expense-item {
+      padding: 10px; /* Adjust padding for smaller screens */
+  }
+
+  button {
+      width: 100%; /* Full width buttons */
+      margin-bottom: 5px; /* Space between buttons */
+  }
+
+  a {
+      width: 100%; /* Full width links */
+      display: block; /* Block display for links */
+      margin-bottom: 5px; /* Space between links */
+  }
+}
+
+@media (max-width: 480px) {
+  .expense-item {
+      font-size: 14px; /* Smaller text size for very small screens */
+  }
+
+  .loading {
+      font-size: 18px; /* Smaller loading text */
+  }
+}

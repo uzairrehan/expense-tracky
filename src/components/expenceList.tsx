@@ -8,7 +8,8 @@ import Link from "next/link";
 
 
 
-function ExpenceList({ val }:string) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function ExpenceList({ val }:any) {
     const [expense, setExpense] = useState<DocumentData[]>([]);
     const [loading, setLoading] = useState(true)
     useEffect(() => {
@@ -67,63 +68,49 @@ function ExpenceList({ val }:string) {
 
 
     return (<>
-        <div style={{ maxWidth: "800px", margin: "auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
-            {loading ? (
-                <div className="loading"></div>
-            ) : expense.length > 0 ? (
-                <ul style={{ listStyleType: "none", padding: "0" }}>
-                    {expense.map(({ amount, category, date, note, title, id, firebaseID }) => {
-                        return (
-                            <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #ccc" }}>
-                                <div style={{ flex: "2", padding: "0 10px" }}>
-                                    <strong>Title:</strong> {title}
-                                </div>
-                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
-                                    <strong>Amount:</strong> &#8383; {amount}
-                                </div>
-                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
-                                    <strong>Category:</strong> {category}
-                                </div>
-                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
-                                    <strong>Date:</strong> {date.toDate().toLocaleDateString()}
-                                </div>
-                                <div style={{ flex: "2", padding: "0 10px" }}>
-                                    <strong>Note:</strong> {note || "N/A"}
-                                </div>
-                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
-                                    <button
-                                        onClick={() => deleteExpense(firebaseID)}
-                                        style={{ backgroundColor: "#ff4d4d", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
-                                    >
-                                        Delete
-                                    </button>
-                                </div>
-                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
+<div className="expense-container">
+    {loading ? (
+        <div className="loading"></div>
+    ) : expense.length > 0 ? (
+        <ul className="expense-list">
+            {expense.map(({ amount, category, date, note, title, id, firebaseID }) => {
+                return (
+                    <li key={id} className="expense-item">
+                        <div className="expense-title">
+                            <strong>Title:</strong> {title}
+                        </div>
+                        <div className="expense-amount">
+                            <strong>Amount:</strong> &#8383; {amount}
+                        </div>
+                        <div className="expense-category">
+                            <strong>Category:</strong> {category}
+                        </div>
+                        <div className="expense-date">
+                            <strong>Date:</strong> {date.toDate().toLocaleDateString()}
+                        </div>
+                        <div className="expense-note">
+                            <strong>Note:</strong> {note || "N/A"}
+                        </div>
+                        <div className="expense-delete">
+                            <button onClick={() => {deleteExpense(firebaseID)  }
+                            }>Delete</button>
+                        </div>
+                        <div className="expense-edit">
+                            {val === "add" ? (
+                                <Link href={`edit/${firebaseID}`}>Edit</Link>
+                            ) : (
+                                <Link href={`dashboard/edit/${firebaseID}`}>Edit</Link>
+                            )}
+                        </div>
+                    </li>
+                );
+            })}
+        </ul>
+    ) : (
+        <h4>You have no expenses</h4>
+    )}
+</div>
 
-                                    {val == "add" ? <Link
-                                        href={`edit/${firebaseID}`}
-                                        style={{ backgroundColor: "green", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
-                                    >
-                                        Edit
-                                    </Link> :
-                                        <Link
-                                            href={`dashboard/edit/${firebaseID}`}
-                                            style={{ backgroundColor: "green", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
-                                        >
-                                            Edit
-                                        </Link>
-
-                                    }
-
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-            ) : (
-                <h4>You have no expenses</h4>
-            )}
-        </div>
 
     </>);
 }
