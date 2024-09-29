@@ -3,16 +3,45 @@
 import SignIn from "@/components/signIn";
 import SignUp from "@/components/signUp";
 import { googleSign } from "@/firebase/firebaseauth";
+import { app } from "@/firebase/firebaseconfig";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 
 function Authenticate() {
-    return ( 
+    const [pageState, setPageState] = useState("SignUp")
+
+    const route = useRouter();
+
+
+    useEffect(() => {
+        const auth = getAuth(app);
+        onAuthStateChanged(auth, (loggedInUser) => {
+            if (loggedInUser) {
+                route.push("/dashboard");
+            }
+            else {
+                route.push("/authenticate");
+            }
+        });
+    }, [])
+    return (
         <>
-        <SignIn />
-        <SignUp />
-        <button onClick={googleSign}>Google Signin</button>
+            <button onClick={googleSign}>Google Signin</button>
+            <button onClick={()=> setPageState("SignIn")}>signIn</button>
+            <button onClick={()=> setPageState("SignUp")}>signup</button>
+
+            {pageState == "SignUp" ?
+                <SignUp />
+                : <SignIn />}
+
+
+
+
+
         </>
-     );
+    );
 }
 
 export default Authenticate;

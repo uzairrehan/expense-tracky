@@ -3,6 +3,7 @@
 import { db } from "@/firebase/firebasefirestore";
 import { CategoryType, ExpenseType } from "@/types/types";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { slug: string } }) {
@@ -17,7 +18,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     const [amount, setAmount] = useState<number>(0);
     const [category, setCategory] = useState("None");
     const [note, setNote] = useState<string>("");
-
+    const route =  useRouter()
     
 
     // this func is fetching the dtata and also setting it
@@ -66,6 +67,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                         note,
                     });
                     console.log("Expense updated successfully");
+                    route.push("/dashboard")
                     
                 } catch (error) {
                     setError("Failed to update expense");
