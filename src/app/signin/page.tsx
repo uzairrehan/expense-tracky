@@ -1,6 +1,7 @@
 "use client";
 
 import { loginWithEmailPassword, passwordReset } from "@/firebase/firebaseauth";
+import Link from "next/link";
 import { useState } from "react";
 
 
@@ -40,7 +41,7 @@ function SignIn() {
                         </div>
                         <button onClick={() => { handleSubmit(email, password) }} className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Signin</button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Want to <a href={"signup"}> <b className="font-medium text-primary-600 hover:underline dark:text-primary-500">signup ?</b></a>
+                            Want to <Link href={"signup"}> <b className="font-medium text-primary-600 hover:underline dark:text-primary-500">signup ?</b></Link>
                         </p>
                     </div>
                 </div>

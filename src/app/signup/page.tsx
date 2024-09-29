@@ -1,6 +1,7 @@
 "use client";
 
 import { signupWithEmailPassword } from "@/firebase/firebaseauth";
+import Link from "next/link";
 import { useState } from "react";
 
 
@@ -43,12 +44,10 @@ function Signup() {
                                 onChange={(e) => setPassword(e.target.value)}
                                 type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                         </div>
-                        <div className="flex items-center justify-between">
-                            <a href="#" className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
-                        </div>
+
                         <button onClick={() => { handleSubmit(email, password) }} className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Signup</button>
                         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                            Want to <a href={"signin"}> <b className="font-medium text-primary-600 hover:underline dark:text-primary-500">signin ?</b></a>
+                            Want to <Link href={"signin"}> <b className="font-medium text-primary-600 hover:underline dark:text-primary-500">signin ?</b></Link>
                         </p>
                     </div>
                 </div>
