@@ -20,8 +20,6 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
             if (loggedInUser) {
                 setUser(loggedInUser);
                 // route.push("/dashboard");
-                console.log(loggedInUser.photoURL);
-                console.log(user)
             }
             else {
                 console.log('inside onauthstatechange else statement');

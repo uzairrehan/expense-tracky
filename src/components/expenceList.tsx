@@ -1,62 +1,120 @@
 import { deleteExpense } from "@/firebase/firebasefirestore";
-import { ExpenseType } from "@/types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { auth } from "@/firebase/firebaseauth";
+import { db } from "@/firebase/firebasefirestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { collection, DocumentData, onSnapshot, query, Unsubscribe, where } from "firebase/firestore";
+import Link from "next/link";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ExpenceList({expense}:any) {
-    const [loading, setLoading] = useState(true);
-        setLoading(false)
-    
-    return ( <>
-    
+
+
+function ExpenceList({ val }:string) {
+    const [expense, setExpense] = useState<DocumentData[]>([]);
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const detachOnAuthListiner = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                fetchExpensesRealtime();
+            }
+        });
+        return () => {
+            if (readTodosRealtime) {
+                console.log("Component Unmount.");
+                readTodosRealtime();
+                detachOnAuthListiner();
+            }
+        };
+    }, []);
+
+
+    let readTodosRealtime: Unsubscribe;
+    const fetchExpensesRealtime = () => {
+        const collectionRef = collection(db, "expenses");
+        const currentUserUID = auth.currentUser?.uid;
+        const condition = where("uid", "==", currentUserUID);
+        const q = query(collectionRef, condition);
+        const expenseClone = [...expense];
+
+        readTodosRealtime = onSnapshot(q, (querySnapshot) => {
+            querySnapshot.docChanges().forEach((change) => {
+                const todo = change.doc.data();
+                todo.id = change.doc.id;
+                if (change.type === "added") {
+                    expenseClone.push(todo);
+                    setExpense([...expenseClone]);
+                }
+                if (change.type === "modified") {
+                    const index = expenseClone.findIndex(t => t.id === todo.id);
+                    if (index !== -1) {
+                        expenseClone[index] = todo;
+                    }
+                    setExpense([...expenseClone]);
+                    console.log("modified");
+                }
+                if (change.type === "removed") {
+                    console.log("removed", change);
+
+                    const index = expenseClone.findIndex(t => t.id === todo.id);
+                    if (index !== -1) {
+                        expenseClone.splice(index, 1);
+                        setExpense([...expenseClone]);
+                    }
+                }
+            });
+            setLoading(false)
+        });
+    };
+
+
+    return (<>
+        <div style={{ maxWidth: "800px", margin: "auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px" }}>
             {loading ? (
                 <div className="loading"></div>
             ) : expense.length > 0 ? (
-                <ul style={{ listStyle: "none", padding: "0" }}>
-                    {expense.map(({ amount, category, date, note, title, id, firebaseID }:ExpenseType) => {
-
+                <ul style={{ listStyleType: "none", padding: "0" }}>
+                    {expense.map(({ amount, category, date, note, title, id, firebaseID }) => {
                         return (
-                            <li key={id} style={{
-                                display: "flex",
-                                justifyContent: "space-between",
-                                alignItems: "center",
-                                border: "1px solid #ccc",
-                                padding: "10px",
-                                marginBottom: "10px",
-                                borderRadius: "8px"
-                            }}>
-                                <div style={{ flexGrow: 1 }}>
-                                    <p><strong>Title:</strong> {title}</p>
-                                    <p><strong>Amount:</strong> &#8383; {amount}</p>
-                                    <p><strong>Category:</strong> {category}</p>
-                                    <p><strong>Date:</strong> {date.toLocaleDateString()}</p>
-                                    <p><strong>Note:</strong> {note}</p>
+                            <li key={id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 0", borderBottom: "1px solid #ccc" }}>
+                                <div style={{ flex: "2", padding: "0 10px" }}>
+                                    <strong>Title:</strong> {title}
                                 </div>
-                                <div style={{ display: "flex", gap: "10px" }}>
+                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
+                                    <strong>Amount:</strong> &#8383; {amount}
+                                </div>
+                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
+                                    <strong>Category:</strong> {category}
+                                </div>
+                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
+                                    <strong>Date:</strong> {date.toDate().toLocaleDateString()}
+                                </div>
+                                <div style={{ flex: "2", padding: "0 10px" }}>
+                                    <strong>Note:</strong> {note || "N/A"}
+                                </div>
+                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
                                     <button
                                         onClick={() => deleteExpense(firebaseID)}
-                                        style={{
-                                            backgroundColor: "#f44336",
-                                            color: "white",
-                                            padding: "8px 12px",
-                                            border: "none",
-                                            borderRadius: "4px",
-                                            cursor: "pointer"
-                                        }}>
+                                        style={{ backgroundColor: "#ff4d4d", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
+                                    >
                                         Delete
                                     </button>
-                                    <button
-                                        onClick={() => deleteExpense(firebaseID)}
-                                        style={{
-                                            backgroundColor: "#4CAF50",
-                                            color: "white",
-                                            padding: "8px 12px",
-                                            border: "none",
-                                            borderRadius: "4px",
-                                            cursor: "pointer"
-                                        }}>
+                                </div>
+                                <div style={{ flex: "1", padding: "0 10px", textAlign: "center" }}>
+
+                                    {val == "add" ? <Link
+                                        href={`edit/${firebaseID}`}
+                                        style={{ backgroundColor: "green", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
+                                    >
                                         Edit
-                                    </button>
+                                    </Link> :
+                                        <Link
+                                            href={`dashboard/edit/${firebaseID}`}
+                                            style={{ backgroundColor: "green", color: "#fff", border: "none", padding: "5px 10px", borderRadius: "5px", cursor: "pointer" }}
+                                        >
+                                            Edit
+                                        </Link>
+
+                                    }
+
                                 </div>
                             </li>
                         );
@@ -65,7 +123,9 @@ function ExpenceList({expense}:any) {
             ) : (
                 <h4>You have no expenses</h4>
             )}
-    </> );
+        </div>
+
+    </>);
 }
 
 export default ExpenceList;
