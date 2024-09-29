@@ -35,6 +35,7 @@ export type UserType = {
 export type UserTypee = {
   email: string | null,
   uid: string
+  photoURL :string | null
 }
 
 export type AuthContextProviderType = {
@@ -43,4 +44,19 @@ export type AuthContextProviderType = {
 
 export type AuthContextType = {
   user: UserTypee | null
+}
+
+
+
+
+
+
+export type ExpenseType= {
+    id:string ;
+    title: string;
+    amount:number;
+    category: string;
+    date:Date;
+    note: string;
+    firebaseID :string;
 }

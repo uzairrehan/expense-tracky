@@ -40,3 +40,18 @@ export async function deleteExpense(firebaseID: string) {
   await deleteDoc(doc(db, "expenses", firebaseID));
   console.log(firebaseID)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

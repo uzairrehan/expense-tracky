@@ -3,7 +3,7 @@
 import { app } from "@/firebase/firebaseconfig";
 import { AuthContextProviderType, AuthContextType, UserTypee } from "@/types/types";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useState } from "react";
 
 
@@ -12,20 +12,21 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export function AuthContextProvider({ children }: AuthContextProviderType) {
     const [user, setUser] = useState<UserTypee | null>(null);
 
-    // const route = useRouter();
+    const route = useRouter();
 
     useEffect(() => {
         const auth = getAuth(app);
         onAuthStateChanged(auth, (loggedInUser) => {
             if (loggedInUser) {
-                const { email, uid } = loggedInUser;
-                setUser({ email, uid });
-                // route.push("/home");
+                setUser(loggedInUser);
+                // route.push("/dashboard");
+                console.log(loggedInUser.photoURL);
+                console.log(user)
             }
             else {
                 console.log('inside onauthstatechange else statement');
                 setUser(null);
-                // route.push("/");
+                route.push("/authenticate");
             }
         });
     }, [])
