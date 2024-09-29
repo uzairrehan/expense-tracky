@@ -10,15 +10,11 @@ import {
 } from "firebase/firestore";
 import { app } from "./firebaseconfig";
 import { auth } from "./firebaseauth";
+import { UserType } from "@/types/types";
 
 export const db = getFirestore(app);
 
-type UserType = {
-  email: string;
-  rollNum: string;
-  studentName: string;
-  uid: string;
-};
+
 
 export async function saveUser(user: UserType) {
   //   const docRef = doc(db, "collectionName", "docID");
@@ -40,11 +36,12 @@ export async function saveExpense(title: string, amount : number, date:Date ,cat
   // addDoc("where", "what");
 
   const uid = auth.currentUser?.uid;
-  const newTodo = { title, uid, amount,date, category,note };
+  const newExpense = { title, uid,amount,date, category,note };
 
   try {
     const collectionRef = collection(db, "expenses");
-    await addDoc(collectionRef, newTodo);
+    await addDoc(collectionRef, newExpense);
+    console.log(newExpense);
   } catch (error) {
     console.log(error);
   }

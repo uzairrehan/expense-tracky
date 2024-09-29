@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction  } from "react";
 
 export type userSaveType = {
   email: string | null;
@@ -6,12 +6,7 @@ export type userSaveType = {
   uid: string;
 };
 
-export type todoDataType = {
-  todo: string;
-  uid: string;
-  email: string;
-  completed: boolean;
-};
+
 
 export type inputElementType = {
   e: React.ChangeEvent<HTMLInputElement>;
@@ -23,4 +18,14 @@ export type authContextType = {
     uid: string;
   };
   setAuthenticatedUser: Dispatch<SetStateAction<object>>;
+};
+
+
+
+export type CategoryType = "Food" | "Transport" | "Bills" | "Education" | "Investments" | "Luxuries" | "Other";
+
+export type UserType = {
+  email: string;
+  studentName: string;
+  uid: string;
 };
