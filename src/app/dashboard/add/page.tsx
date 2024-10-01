@@ -14,7 +14,7 @@ function Add() {
     const [note, setNote] = useState('');
     const [date] = useState(new Date());
 
-
+ 
 
 
 
@@ -119,4 +119,4 @@ function Add() {
     );
 }
 
-export default Add;
+export default Add; 

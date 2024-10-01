@@ -20,7 +20,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     const [category, setCategory] = useState("None");
     const [note, setNote] = useState<string>("");
     const route = useRouter()
-
+ 
 
     // this func is fetching the dtata and also setting it
     useEffect(() => {

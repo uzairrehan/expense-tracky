@@ -1,19 +1,19 @@
 "use client";
 
 import Sidebar from "@/components/sidebar";
-import { useAuthContext } from "@/context/auth.context";
+// import { useAuthContext } from "@/context/auth.context";
 
 
 function Profile() {
-    const { user } = useAuthContext()
-    console.log(user);
+    // const { user } = useAuthContext()
+    // console.log(user);
 
 
     return (
         <>
                 <Sidebar/>
 
-            <div className="profile-container" style={{backgroundColor: "black"}}>
+            {/* <div className="profile-container" style={{backgroundColor: "black"}}>
                 <div className="profile-info">
                     <ul>
                         <li>Name: {user.displayName}</li>
@@ -21,9 +21,9 @@ function Profile() {
                         <li>Emailverified: {JSON.stringify(user.emailVerified)}</li>
                     </ul>
                 </div>
-            </div>
-        </>
+            // </div>*/}
+        </> 
     );
-}
+} 
 
 export default Profile;
