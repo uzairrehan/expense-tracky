@@ -75,21 +75,8 @@ body {
   overflow-x: hidden;
 }
 
-body {
 
-  color: black ;
-}
 
-a {
-
-  color: black ;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-}
 
 .loading {
   width: 100px;

@@ -14,30 +14,17 @@ function SignIn() {
     return (
         <>
            <section
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    fontFamily: "Arial, sans-serif",
-  }}
+
 >
   <div
-    style={{
-      backgroundColor: "#fff",
-      padding: "30px",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      width: "400px",
-      textAlign: "center",
-    }}
+
   >
-    <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+    <h1 >
       Sign In to Your Account
     </h1>
 
-    <div style={{ marginBottom: "15px", textAlign: "left" }}>
-      <label htmlFor="email" style={{ fontSize: "14px", color: "#555" }}>
+    <div >
+      <label htmlFor="email" >
         Your Email
       </label>
       <input
@@ -48,18 +35,12 @@ function SignIn() {
         id="email"
         placeholder="name@company.com"
         required
-        style={{
-          width: "100%",
-          padding: "10px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          marginTop: "5px",
-        }}
-      />
+
+      /> 
     </div>
 
-    <div style={{ marginBottom: "15px", textAlign: "left" }}>
-      <label htmlFor="password" style={{ fontSize: "14px", color: "#555" }}>
+    <div >
+      <label htmlFor="password" >
         Password
       </label>
       <input
@@ -70,26 +51,14 @@ function SignIn() {
         id="password"
         placeholder="••••••••"
         required
-        style={{
-          width: "100%",
-          padding: "10px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          marginTop: "5px",
-        }}
+
       />
     </div>
 
-    <div style={{ textAlign: "right", marginBottom: "15px" }}>
+    <div>
       <button
         onClick={() => passwordReset(email)}
-        style={{
-          backgroundColor: "transparent",
-          border: "none",
-          color: "#007bff",
-          fontSize: "14px",
-          cursor: "pointer",
-        }}
+
       >
         Forgot Password?
       </button>
@@ -97,16 +66,7 @@ function SignIn() {
 
     <button
       onClick={() => handleSubmit(email, password)}
-      style={{
-        backgroundColor: "#007bff",
-        color: "#fff",
-        padding: "10px 20px",
-        border: "none",
-        borderRadius: "5px",
-        fontSize: "16px",
-        cursor: "pointer",
-        width: "100%",
-      }}
+
     >
       Sign In
     </button>

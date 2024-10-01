@@ -101,7 +101,6 @@ function ExpenceList({ val }: any) {
                             <option value="Investments">Investments</option>
                             <option value="Luxuries">Luxuries</option>
                             <option value="Other">Other</option>
-                    {/* Add more categories as needed */}
                 </select>
             </label>
             <label>
@@ -112,55 +111,34 @@ function ExpenceList({ val }: any) {
                     onChange={(e) => setAmountFilter(Number(e.target.value))}
                 />
             </label>
-        </div>
+        </div> 
 <br />
 {loading ? (
     <div></div>
 ) : filteredExpenses.length > 0 ? (
-    <ul style={{ listStyle: "none", padding: "0", margin: "0", width: "100%", maxWidth: "900px" }}>
+    <ul >
         {filteredExpenses.map(({ amount, category, date, note, title, id, firebaseID }) => {
             return (
                 <li key={id} 
-                    style={{ 
-                        display: "grid", 
-                        gridTemplateColumns: "repeat(4, 1fr) auto auto", 
-                        alignItems: "center", 
-                        padding: "15px", 
-                        borderBottom: "1px solid #ccc",
-                        marginBottom: "10px", 
-                        borderRadius: "8px",
-                        backgroundColor: "#f9f9f9",
-                        transition: "background-color 0.3s ease"
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = "#f0f0f0"}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = "#f9f9f9"}
                 >
-                    <div style={{ padding: "5px" }}>
+                    <div >
                         <strong>Title:</strong> {title}
                     </div>
-                    <div style={{ padding: "5px" }}>
+                    <div >
                         <strong>Amount:</strong> &#8383; {amount}
                     </div>
-                    <div style={{ padding: "5px" }}>
+                    <div >
                         <strong>Category:</strong> {category}
                     </div>
-                    <div style={{ padding: "5px" }}>
+                    <div >
                         <strong>Date:</strong> {date.toDate().toLocaleDateString()}
                     </div>
-                    <div style={{ padding: "5px" }}>
+                    <div >
                         <strong>Note:</strong> {note || "N/A"}
                     </div>
-                    <div style={{ display: "flex", gap: "10px" }}>
+                    <div >
                         <button 
-                            style={{ 
-                                backgroundColor: "#f44336", 
-                                color: "white", 
-                                border: "none", 
-                                padding: "8px 12px", 
-                                borderRadius: "4px", 
-                                cursor: "pointer", 
-                                transition: "background-color 0.3s ease"
-                            }}
+           
 
                             onClick={() => deleteExpense(firebaseID)}
                         >
@@ -169,15 +147,7 @@ function ExpenceList({ val }: any) {
                         {val === "add" ? (
                             <Link href={`edit/${firebaseID}`}>
                                 <button 
-                                    style={{ 
-                                        backgroundColor: "#2196F3", 
-                                        color: "white", 
-                                        border: "none", 
-                                        padding: "8px 12px", 
-                                        borderRadius: "4px", 
-                                        cursor: "pointer", 
-                                        transition: "background-color 0.3s ease"
-                                    }}
+                                    
 
                                 >
                                     Edit
@@ -186,15 +156,7 @@ function ExpenceList({ val }: any) {
                         ) : (
                             <Link href={`dashboard/edit/${firebaseID}`}>
                                 <button 
-                                    style={{ 
-                                        backgroundColor: "#2196F3", 
-                                        color: "white", 
-                                        border: "none", 
-                                        padding: "8px 12px", 
-                                        borderRadius: "4px", 
-                                        cursor: "pointer", 
-                                        transition: "background-color 0.3s ease"
-                                    }}
+                                    
 
                                 >
                                     Edit
@@ -207,7 +169,7 @@ function ExpenceList({ val }: any) {
         })}
     </ul>
 ) : (
-    <h4 style={{ textAlign: "center", color: "#777", padding: "20px" }}>No expenses match your filters</h4>
+    <h4 >No expenses match your filters</h4>
 )}
 
         </div>
