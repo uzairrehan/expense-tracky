@@ -1,25 +1,27 @@
 "use client";
 
-// import { app } from "@/firebase/firebaseconfig";
-// import { getAuth } from "firebase/auth";
-// import { useEffect, useState } from "react";
+import Sidebar from "@/components/sidebar";
+import { useAuthContext } from "@/context/auth.context";
 
 
 function Profile() {
-    // const { email, setEmail } = useState()
-    // const { name, setName } = useState(
-    // useEffect(() => {
-    //     const auth = getAuth(app);
-    //     if (auth.currentUser) {
-    //         setEmail(auth.currentUser?.email)
-    //         setName(auth.name)
-    //     }
-    // }, [])
+    const { user } = useAuthContext()
+    console.log(user);
+
+
     return (
         <>
-        {/* email : {email} */}
-    
+                <Sidebar/>
 
+            <div className="profile-container" style={{backgroundColor: "black"}}>
+                <div className="profile-info">
+                    <ul>
+                        <li>Name: {user.displayName}</li>
+                        <li>Email: {user.email}</li>
+                        <li>Emailverified: {JSON.stringify(user.emailVerified)}</li>
+                    </ul>
+                </div>
+            </div>
         </>
     );
 }

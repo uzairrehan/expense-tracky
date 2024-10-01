@@ -1,7 +1,6 @@
 import { AuthContextProvider } from "@/context/auth.context";
 import type { Metadata } from "next";
 import "./globals.css";
-import Sidebar from "@/components/sidebar";
 
 
 
@@ -19,7 +18,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthContextProvider>
-        <Sidebar/>
           {children}
         </AuthContextProvider>
       </body>

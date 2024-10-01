@@ -1,5 +1,6 @@
 "use client";
 
+import Sidebar from "@/components/sidebar";
 import { db } from "@/firebase/firebasefirestore";
 import { CategoryType, ExpenseType } from "@/types/types";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -18,8 +19,8 @@ export default function Page({ params }: { params: { slug: string } }) {
     const [amount, setAmount] = useState<number>(0);
     const [category, setCategory] = useState("None");
     const [note, setNote] = useState<string>("");
-    const route =  useRouter()
-    
+    const route = useRouter()
+
 
     // this func is fetching the dtata and also setting it
     useEffect(() => {
@@ -68,7 +69,7 @@ export default function Page({ params }: { params: { slug: string } }) {
                     });
                     console.log("Expense updated successfully");
                     route.push("/dashboard")
-                    
+
                 } catch (error) {
                     setError("Failed to update expense");
                     console.error(error);
@@ -92,59 +93,83 @@ export default function Page({ params }: { params: { slug: string } }) {
 
 
     return (
-        <div>
-            <h1>Edit Expense</h1>
-            {expense && (
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <h4>Title</h4>
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required
-                        />
-                    </div>
+        <>
+                <Sidebar/>
 
-                    <div>
-                        <h4>Amount</h4>
-                        <input
-                            type="number"
-                            value={amount}
-                            onChange={(e) => setAmount(Number(e.target.value))}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <h4>Category</h4>
-                        <select
-                            value={category}
-                            onChange={(e) => setCategory(e.target.value as CategoryType)}
-                            required
-                        >
-                            <option value="None">None</option>
-                            <option value="Food">Food</option>
-                            <option value="Transport">Transport</option>
-                            <option value="Bills">Bills</option>
-                            <option value="Education">Education</option>
-                            <option value="Investments">Investments</option>
-                            <option value="Luxuries">Luxuries</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <h4>Optional Note</h4>
-                        <textarea
-                            value={note}
-                            onChange={(e) => setNote(e.target.value)}
-                        ></textarea>
-                    </div>
-
-                    <button type="submit">Update Expense</button>
-                </form>
-            )}
+        <br />
+        <div style={{ maxWidth: "400px", margin: "auto", padding: "20px", border: "1px solid #ccc", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)" }}>
+    <h1 style={{ textAlign: "center", color: "#333", marginBottom: "20px" }}>Add your expense</h1>
+    <form onSubmit={handleSubmit}>
+        <div style={{ marginBottom: "15px" }}>
+            <h4 style={{ marginBottom: "8px", color: "#555" }}>Title</h4>
+            <input
+                type="text"
+                value={title}
+                onChange={(e) => { setTitle(e.target.value); }}
+                style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", fontSize: "16px", boxSizing: "border-box" }}
+                required
+            />
         </div>
-    );
+
+        <div style={{ marginBottom: "15px" }}>
+            <h4 style={{ marginBottom: "8px", color: "#555" }}>Amount</h4>
+            <input
+                type="number"
+                value={amount}
+                onChange={(e) => { setAmount(Number(e.target.value)); }}
+                style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", fontSize: "16px", boxSizing: "border-box" }}
+                required
+            />
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+            <h4 style={{ marginBottom: "8px", color: "#555" }}>Category</h4>
+            <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value as CategoryType)}
+                style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", fontSize: "16px", boxSizing: "border-box" }}
+                required
+            >
+                <option value="None">None</option>
+                <option value="Food">Food</option>
+                <option value="Transport">Transport</option>
+                <option value="Bills">Bills</option>
+                <option value="Education">Education</option>
+                <option value="Investments">Investments</option>
+                <option value="Luxuries">Luxuries</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div style={{ marginBottom: "15px" }}>
+            <h4 style={{ marginBottom: "8px", color: "#555" }}>Optional Note</h4>
+            <textarea
+                value={note}
+                onChange={(e) => { setNote(e.target.value); }}
+                style={{ width: "100%", padding: "10px", borderRadius: "4px", border: "1px solid #ccc", fontSize: "16px", boxSizing: "border-box", minHeight: "80px" }}
+            ></textarea>
+        </div>
+
+        <button
+            type="submit"
+            style={{
+                width: "100%",
+                padding: "12px",
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+                fontSize: "16px",
+                transition: "background-color 0.3s ease"
+            }}
+
+        >
+            Save Expense
+        </button>
+    </form>
+</div>
+
+        </>
+    )
 }
