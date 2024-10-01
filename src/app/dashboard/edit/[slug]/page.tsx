@@ -145,6 +145,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           <button type="submit">Save Expense</button>
         </form>
       </div>
-    </> 
+    </>
   );
 }

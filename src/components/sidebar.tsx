@@ -2,50 +2,49 @@
 
 import { signOutFunc } from "@/firebase/firebaseauth";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import Image from "next/image";
 
 const Sidebar = () => {
-    return (
-<div
+  const pathname = usePathname();
 
->
-  <div >
-    <Link href={"/dashboard/profile"}>
-      <div
-
-      >
-        Profile
+  return (
+    <div className="sidebar">
+      <div className="logo">
+        <Image src={"/images/2.png"} width={160} height={80} alt={"Logo"} />
       </div>
-    </Link>
-
-    <Link href={"/dashboard"}>
-      <div
-
-
-      >
-        View
+      <div className="menu">
+        <Link href="/dashboard/profile">
+          <div
+            className={`menu-item ${
+              pathname === "/dashboard/profile" ? "active" : ""
+            }`}
+          >
+            <div>Profile</div>
+          </div>
+        </Link>
+        <Link href="/dashboard">
+          <div
+            className={`menu-item ${pathname === "/dashboard" ? "active" : ""}`}
+          >
+            <div>View</div>
+          </div>
+        </Link>
+        <Link href="/dashboard/add">
+          <div
+            className={`menu-item ${
+              pathname === "/dashboard/add" ? "active" : ""
+            }`}
+          >
+            <div>Add</div>
+          </div>
+        </Link>
       </div>
-    </Link>
-
-    <Link href={"/dashboard/add"}>
-      <div
- 
-
-      >
-        Add
+      <div className="signout" onClick={signOutFunc}>
+        Sign Out
       </div>
-    </Link>
-  </div>
-
-  <button
-    onClick={signOutFunc}
-
-
-  >
-    Logout
-  </button>
-</div>
-
-    );
+    </div>
+  );
 };
 
 export default Sidebar;

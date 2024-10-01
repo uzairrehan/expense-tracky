@@ -2,15 +2,12 @@
 
 import Sidebar from "@/components/sidebar";
 
-
 function Profile() {
+  return (
+    <>
+      <Sidebar />
+    </>
+  );
+}
 
-
-    return (
-        <>
-                <Sidebar/>
-        </> 
-    );
-} 
-
-export default Profile; 
+export default Profile;
