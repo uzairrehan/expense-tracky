@@ -13,45 +13,62 @@ function SignIn() {
 
   return (
     <>
-      <section>
-        <div>
-          <h1>Sign In to Your Account</h1>
+      <section className="min-h-screen flex items-center justify-center bg-dark-green">
+  <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h1 className="text-2xl font-bold text-dark-green mb-6 text-center">
+      Sign In to Your Account
+    </h1>
 
-          <div>
-            <label htmlFor="email">Your Email</label>
-            <input
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-              name="email"
-              id="email"
-              placeholder="name@company.com"
-              required
-            />
-          </div>
+    <div className="mb-4">
+      <label htmlFor="email" className="block text-dark-green font-semibold mb-2">
+        Your Email
+      </label>
+      <input
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        name="email"
+        id="email"
+        placeholder="name@company.com"
+        required
+        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+    </div>
 
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              name="password"
-              id="password"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+    <div className="mb-4">
+      <label htmlFor="password" className="block text-dark-green font-semibold mb-2">
+        Password
+      </label>
+      <input
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        name="password"
+        id="password"
+        placeholder="••••••••"
+        required
+        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+    </div>
 
-          <div>
-            <button onClick={() => passwordReset(email)}>
-              Forgot Password?
-            </button>
-          </div>
+    <div className="mb-6 text-right">
+      <button
+        onClick={() => passwordReset(email)}
+        className="text-green-500 hover:text-green-700 focus:outline-none font-semibold"
+      >
+        Forgot Password?
+      </button>
+    </div>
 
-          <button onClick={() => handleSubmit(email, password)}>Sign In</button>
-        </div>
-      </section>
+    <button
+      onClick={() => handleSubmit(email, password)}
+      className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
+    >
+      Sign In
+    </button>
+  </div>
+</section>
+
     </>
   );
 }

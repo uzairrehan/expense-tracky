@@ -1,3 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 * {
   box-sizing: border-box;
   padding: 0;
@@ -10,20 +13,17 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  background-color: #e9ecde;
 }
 
 .abba-div {
   width: 1025px;
-  height: 100vh;
-  background-color: #83ace5;
-  display: flex;
-  flex-direction: row;
+  /* height: 100vh; */
+  display: flex; 
+  flex-direction: column; 
 }
 .sidebar {
-  height: 100vh;
-  width: 260px;
+  /* height: 100vh; */
+  width:auto;
   background-color: #005942;
   color: #005942;
   display: flex;
@@ -81,12 +81,15 @@ body {
 .signout:hover {
   background-color: #be123c;
 }
+.chart-container {
+  width: 500px;
+  height: 500px;
+}
 
-/* For mobile devices */
-@media (max-width: 768px) {
-  .sidebar {
+ @media (max-width: 768px) {
+  /* .sidebar {
     width: 100px;
-  }
+  } */
 
   .logo {
     font-size: 18px;
@@ -103,11 +106,10 @@ body {
   }
 }
 
-/* For very small mobile devices */
 @media (max-width: 480px) {
-  .sidebar {
+  /* .sidebar {
     width: 80px;
-  }
+  } */
 
   .logo {
     font-size: 16px;
@@ -124,11 +126,10 @@ body {
   }
 }
 
-/* For larger screens */
 @media (min-width: 1024px) {
-  .sidebar {
+  /* .sidebar {
     width: 300px;
-  }
+  } */
 
   .logo {
     font-size: 28px;
@@ -142,5 +143,5 @@ body {
   .signout {
     font-size: 18px;
     padding: 12px;
-  }
-}
+  } 
+} 

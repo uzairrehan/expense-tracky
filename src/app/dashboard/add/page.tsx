@@ -30,66 +30,70 @@ function Add() {
     <>
       <Sidebar />
 
-      <br />
+      
 
-      <div>
-        <h1>Add your expense</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <h4>Title</h4>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              required
-            />
-          </div>
+      <div className="p-6 bg-white shadow-lg rounded-lg">
+  <h1 className="text-2xl font-bold text-dark-green mb-6">Add your expense</h1>
+  <form onSubmit={handleSubmit}>
+    <div className="mb-4">
+      <h4 className="text-dark-green font-semibold">Title</h4>
+      <input
+        type="text"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+        className="mt-2 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+    </div>
 
-          <div>
-            <h4>Amount</h4>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => {
-                setAmount(Number(e.target.value));
-              }}
-              required
-            />
-          </div>
+    <div className="mb-4">
+      <h4 className="text-dark-green font-semibold">Amount</h4>
+      <input
+        type="number"
+        value={amount}
+        onChange={(e) => setAmount(Number(e.target.value))}
+        required
+        className="mt-2 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      />
+    </div>
 
-          <div>
-            <h4>Category</h4>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value as CategoryType)}
-              required
-            >
-              <option value="None">None</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Bills">Bills</option>
-              <option value="Education">Education</option>
-              <option value="Investments">Investments</option>
-              <option value="Luxuries">Luxuries</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+    <div className="mb-4">
+      <h4 className="text-dark-green font-semibold">Category</h4>
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value as CategoryType)}
+        required
+        className="mt-2 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      >
+        <option value="None">None</option>
+        <option value="Food">Food</option>
+        <option value="Transport">Transport</option>
+        <option value="Bills">Bills</option>
+        <option value="Education">Education</option>
+        <option value="Investments">Investments</option>
+        <option value="Luxuries">Luxuries</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
 
-          <div>
-            <h4>Optional Note</h4>
-            <textarea
-              value={note}
-              onChange={(e) => {
-                setNote(e.target.value);
-              }}
-            ></textarea>
-          </div>
+    <div className="mb-4">
+      <h4 className="text-dark-green font-semibold">Optional Note</h4>
+      <textarea
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+        className="mt-2 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+      ></textarea>
+    </div>
 
-          <button type="submit">Save Expense</button>
-        </form>
-      </div>
+    <button
+      type="submit"
+      className="bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+    >
+      Save Expense
+    </button>
+  </form>
+</div>
+
 
       <ExpenceList val={"add"} />
     </>
