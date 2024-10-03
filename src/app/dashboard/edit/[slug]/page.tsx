@@ -2,7 +2,8 @@
 
 import Sidebar from "@/components/sidebar";
 import { db } from "@/firebase/firebasefirestore";
-import { CategoryType, ExpenseType } from "@/types/types";
+import {  CategoryType, ExpenseType } from "@/types/types";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -86,65 +87,66 @@ export default function Page({ params }: { params: { slug: string } }) {
     <>
       <Sidebar />
 
-      <br />
-      <div>
-        <h1>Add your expense</h1>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <h4>Title</h4>
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              required
-            />
-          </div>
+      <form onSubmit={handleSubmit} className="flex p-5 flex-col gap-4">
+        <TextField
+          id="outlined-basic"
+          label="Title"
+          variant="outlined"
+          size="small"
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          fullWidth
+        />
 
-          <div>
-            <h4>Amount</h4>
-            <input
-              type="number"
-              value={amount}
-              onChange={(e) => {
-                setAmount(Number(e.target.value));
-              }}
-              required
-            />
-          </div>
+        <TextField
+          id="outlined-basic"
+          label="Amount"
+          variant="outlined"
+          size="small"
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(Number(e.target.value))}
+          required
+          fullWidth
+        />
 
-          <div>
-            <h4>Category</h4>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value as CategoryType)}
-              required
-            >
-              <option value="None">None</option>
-              <option value="Food">Food</option>
-              <option value="Transport">Transport</option>
-              <option value="Bills">Bills</option>
-              <option value="Education">Education</option>
-              <option value="Investments">Investments</option>
-              <option value="Luxuries">Luxuries</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+        <FormControl size="small" fullWidth>
+          <InputLabel id="demo-select-small-label">Category</InputLabel>
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            value={category}
+            label="Age"
+            required
+            onChange={(e) => setCategory(e.target.value as CategoryType)}
+          >
+            <MenuItem value="Food">Food</MenuItem>
+            <MenuItem value="Transport">Transport</MenuItem>
+            <MenuItem value="Bills">Bills</MenuItem>
+            <MenuItem value="Education">Education</MenuItem>
+            <MenuItem value="Investments">Investments</MenuItem>
+            <MenuItem value="Luxuries">Luxuries</MenuItem>
+            <MenuItem value="Other">Other</MenuItem>
+          </Select>
+        </FormControl>
 
-          <div>
-            <h4>Optional Note</h4>
-            <textarea
-              value={note}
-              onChange={(e) => {
-                setNote(e.target.value);
-              }}
-            ></textarea>
-          </div>
+        <TextField
+          id="outlined-basic"
+          label="Optional Note"
+          variant="outlined"
+          size="small"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+        ></TextField>
 
-          <button type="submit">Save Expense</button>
-        </form>
-      </div>
+        <Button variant="outlined" type="submit" color="success" size="large">
+          Save Expense
+        </Button>
+      </form>
+
+
     </>
   );
 }

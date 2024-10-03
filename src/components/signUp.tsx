@@ -1,87 +1,135 @@
 "use client";
 
-import { signupWithEmailPassword } from "@/firebase/firebaseauth";
 import { useState } from "react";
+import { googleSign, signupWithEmailPassword } from "@/firebase/firebaseauth";
+import { setStateType } from "@/types/types";
+import { Box, Typography, TextField, Container, Button } from "@mui/material";
 
-function SignUp() {
+function SignUp({ setPageState, pageState }: setStateType) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
 
-  function handleSubmit(email: string, password: string) {
+  function handleSubmit() {
     signupWithEmailPassword(email, password, name);
   }
 
   return (
-    <>
-     <section className="min-h-screen flex items-center justify-center bg-dark-green">
-  <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-    <div>
-      <div>
-        <h1 className="text-2xl font-bold text-dark-green mb-6 text-center">
-          Sign Up to Your Account
-        </h1>
+    <Container
+      component="main"
+      maxWidth="xs"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+      }}
+    >
+      <Box>
+        <Box
+          sx={{
+            mb: 2,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Button
+            variant={pageState == "SignUp" ? "contained" : "outlined"}
+            color="primary"
+            sx={{ mr: 2 }}
+            onClick={() => {
+              setPageState("SignUp");
+            }}
+          >
+            Sign Up
+          </Button>
+          <Button
+            variant={pageState == "SignIn" ? "contained" : "outlined"}
+            color="primary"
+            onClick={() => {
+              setPageState("SignIn");
+            }}
+          >
+            Sign In
+          </Button>
+        </Box>
+        <Typography
+          component="h1"
+          variant="h5"
+          sx={{ textAlign: "center", mb: 3 }}
+        >
+          {pageState == "SignUp" ? "Create an Account" : "Sign In"}
+        </Typography>
 
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-dark-green font-semibold mb-2">
-            Your Name
-          </label>
-          <input
+        <Box component="form" noValidate>
+          {
+            <TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              id="email"
+              type="email"
+              name="email"
+              autoComplete="email"
+              size="small"
+              sx={{ mb: 2 }}
+            />
+          }
+
+          <TextField
+            fullWidth
+            label="Username"
+            variant="outlined"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
+            id="name"
             type="text"
             name="name"
-            id="name"
-            placeholder="Uzair Rehan"
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            size="small"
+            sx={{ mb: 2 }}
           />
-        </div>
 
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-dark-green font-semibold mb-2">
-            Your Email
-          </label>
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            type="email"
-            name="email"
-            id="email"
-            placeholder="name@company.com"
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="password" className="block text-dark-green font-semibold mb-2">
-            Password
-          </label>
-          <input
+          <TextField
+            fullWidth
+            label="Password"
+            variant="outlined"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
+            id="password"
             type="password"
             name="password"
-            id="password"
-            placeholder="••••••••"
-            required
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            size="small"
+            autoComplete="new-password"
+            sx={{ mb: 2 }}
           />
-        </div>
 
-        <button
-          onClick={() => handleSubmit(email, password)}
-          className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-        >
-          Signup
-        </button>
-      </div>
-    </div>
-  </div>
-</section>
-
-    </>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="primary"
+            onClick={handleSubmit}
+          >
+            Sign Up
+          </Button>
+          <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={googleSign}
+              sx={{ mt: 2 }}
+            >
+              Google Sign In
+            </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 

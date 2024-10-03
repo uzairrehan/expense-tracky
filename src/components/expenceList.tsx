@@ -3,17 +3,40 @@ import { useEffect, useState } from "react";
 import { auth } from "@/firebase/firebaseauth";
 import { db } from "@/firebase/firebasefirestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { collection, DocumentData, onSnapshot, query, Unsubscribe, where } from "firebase/firestore";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+
+import {
+  collection,
+  DocumentData,
+  onSnapshot,
+  query,
+  Unsubscribe,
+  where,
+} from "firebase/firestore";
 import Link from "next/link";
 import { Doughnutt } from "./doghnut";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function ExpenceList({ val }: any) {
+function ExpenseList() {
   const [expense, setExpense] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [amountFilter, setAmountFilter] = useState<number>(0);
-  const category_order = ['Luxuries', 'Investments', 'Education', 'Bills', 'Transport', 'Food'];
+  const category_order = [
+    "Luxuries",
+    "Investments",
+    "Education",
+    "Bills",
+    "Transport",
+    "Food",
+  ];
   const [doghnutData, setDoghnutData] = useState<number[]>([]);
 
   const sortedAndSummedExpenses = () => {
@@ -32,18 +55,19 @@ function ExpenceList({ val }: any) {
       }
     });
 
-   
     sortedExpenses.sort((a, b) => {
       const categoryIndexA = category_order.indexOf(a.category);
       const categoryIndexB = category_order.indexOf(b.category);
 
       if (categoryIndexA === categoryIndexB) {
-        return a.amount - b.amount; 
+        return a.amount - b.amount;
       }
-      return categoryIndexA - categoryIndexB; 
+      return categoryIndexA - categoryIndexB;
     });
 
-    const totalsArray = category_order.map((category) => categoryTotals[category]);
+    const totalsArray = category_order.map(
+      (category) => categoryTotals[category]
+    );
     setDoghnutData(totalsArray);
 
     return { sortedExpenses, totalsArray };
@@ -52,22 +76,25 @@ function ExpenceList({ val }: any) {
   useEffect(() => {
     sortedAndSummedExpenses();
   }, [expense]);
+
   useEffect(() => {
-    const detachOnAuthListiner = onAuthStateChanged(auth, (user) => {
+    const detachOnAuthListener = onAuthStateChanged(auth, (user) => {
       if (user) {
         fetchExpensesRealtime();
       }
     });
+
     return () => {
       if (readTodosRealtime) {
         console.log("Component Unmount.");
         readTodosRealtime();
-        detachOnAuthListiner();
       }
+      detachOnAuthListener(); // Corrected position of detachOnAuthListener
     };
   }, []);
 
   let readTodosRealtime: Unsubscribe;
+
   const fetchExpensesRealtime = () => {
     const collectionRef = collection(db, "expenses");
     const currentUserUID = auth.currentUser?.uid;
@@ -106,7 +133,8 @@ function ExpenceList({ val }: any) {
   };
 
   const filteredExpenses = expense.filter((item) => {
-    const isCategoryMatch = categoryFilter === "all" || item.category === categoryFilter;
+    const isCategoryMatch =
+      categoryFilter === "all" || item.category === categoryFilter;
     const isAmountMatch = amountFilter === 0 || item.amount >= amountFilter;
     return isCategoryMatch && isAmountMatch;
   });
@@ -114,93 +142,90 @@ function ExpenceList({ val }: any) {
   return (
     <>
       <Doughnutt dataa={doghnutData} />
+      <div className="flex gap-2 m-2 mb-2">
+        <FormControl size="small" className="w-1/2">
+          <InputLabel id="demo-select-small-label">Filter by Category</InputLabel>
+          <Select
+            labelId="demo-select-small-label"
+            id="demo-select-small"
+            value={categoryFilter}
+            label="Category"
+            required
+            onChange={(e) => setCategoryFilter(e.target.value)}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="Food">Food</MenuItem>
+            <MenuItem value="Transport">Transport</MenuItem>
+            <MenuItem value="Bills">Bills</MenuItem>
+            <MenuItem value="Education">Education</MenuItem>
+            <MenuItem value="Investments">Investments</MenuItem>
+            <MenuItem value="Luxuries">Luxuries</MenuItem>
+            <MenuItem value="Other">Other</MenuItem>
+          </Select>
+        </FormControl>
 
-      <div className="expense-container p-6 bg-white shadow-lg rounded-lg">
-  <div className="filters mb-6">
-    <label className="block text-dark-green font-semibold mb-2">
-      Filtered by category:
-      <select
-        value={categoryFilter}
-        onChange={(e) => setCategoryFilter(e.target.value)}
-        className="mt-2 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-      >
-        <option value="all">All</option>
-        <option value="None">None</option>
-        <option value="Food">Food</option>
-        <option value="Transport">Transport</option>
-        <option value="Bills">Bills</option>
-        <option value="Education">Education</option>
-        <option value="Investments">Investments</option>
-        <option value="Luxuries">Luxuries</option>
-        <option value="Other">Other</option>
-      </select>
-    </label>
-    <label className="block text-dark-green font-semibold mb-2">
-      Filters by amount:
-      <input
-        type="number"
-        value={amountFilter}
-        onChange={(e) => setAmountFilter(Number(e.target.value))}
-        className="mt-2 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-    </label>
-  </div>
-  {loading ? (
-    <div className="text-center text-gray-500">Loading...</div>
-  ) : filteredExpenses.length > 0 ? (
-    <ul className="space-y-4">
-      {filteredExpenses.map(
-        ({ amount, category, date, note, title, id, firebaseID }) => {
-          return (
-            <li key={id} className="p-4 border rounded-lg shadow hover:shadow-lg transition">
-              <div className="text-dark-green font-semibold">
-                <strong>Title:</strong> {title}
-              </div>
-              <div>
-                <strong>Amount:</strong> &#8383; {amount}
-              </div>
-              <div>
-                <strong>Category:</strong> {category}
-              </div>
-              <div>
-                <strong>Date:</strong> {date.toDate().toLocaleDateString()}
-              </div>
-              <div>
-                <strong>Note:</strong> {note || "N/A"}
-              </div>
-              <div className="mt-2 flex space-x-2">
-                <button
-                  onClick={() => deleteExpense(firebaseID)}
-                  className="bg-red-500 text-white py-1 px-3 rounded-md hover:bg-red-600 focus:outline-none"
+        <TextField
+          className="w-1/2"
+          id="outlined-basic"
+          label="Filter by Amount"
+          variant="outlined"
+          size="small"
+          type="number"
+          value={amountFilter}
+          onChange={(e) => setAmountFilter(Number(e.target.value))}
+          required
+        />
+      </div>
+
+      {loading ? (
+        <div className="text-center text-gray-500">Loading...</div>
+      ) : filteredExpenses.length > 0 ? (
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Title</TableCell>
+                <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">Category</TableCell>
+                <TableCell align="right">Date</TableCell>
+                <TableCell align="right">Note</TableCell>
+                <TableCell align="right">Delete</TableCell>
+                <TableCell align="right">Edit</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {filteredExpenses.map(({ amount, category, date, note, title, firebaseID }) => (
+                <TableRow
+                  key={firebaseID}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
-                  Delete
-                </button>
-                {val === "add" ? (
-                  <Link href={`edit/${firebaseID}`}>
-                    <button className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 focus:outline-none">
-                      Edit
-                    </button>
-                  </Link>
-                ) : (
-                  <Link href={`dashboard/edit/${firebaseID}`}>
-                    <button className="bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 focus:outline-none">
-                      Edit
-                    </button>
-                  </Link>
-                )}
-              </div>
-            </li>
-          );
-        }
+                  <TableCell component="th" scope="row">{title}</TableCell>
+                  <TableCell align="right">{amount}</TableCell>
+                  <TableCell align="right">{category}</TableCell>
+                  <TableCell align="right">{date.toDate().toLocaleDateString()}</TableCell>
+                  <TableCell align="right">{note}</TableCell>
+                  <TableCell align="right">
+                    <Button onClick={() => deleteExpense(firebaseID)} variant="outlined" color="error">
+                      Delete
+                    </Button>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Link href={`dashboard/edit/${firebaseID}`}>
+                      <Button variant="outlined" color="warning">
+                        Edit
+                      </Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      ) : (
+        <>No expense</>
       )}
-    </ul>
-  ) : (
-    <h4 className="text-center text-dark-green font-semibold">No expenses match your filters</h4>
-  )}
-</div>
-  {console.log(expense)}
     </>
   );
 }
 
-export default ExpenceList;
+export default ExpenseList; // Corrected the export statement

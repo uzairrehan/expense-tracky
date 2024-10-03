@@ -60,3 +60,9 @@ export type ExpenseType= {
     note: string;
     firebaseID :string;
 }
+
+
+export type setStateType ={
+  setPageState : (pageState:string)=>void;
+  pageState : string
+}

@@ -1,74 +1,145 @@
 "use client";
 
-import { loginWithEmailPassword, passwordReset } from "@/firebase/firebaseauth";
 import { useState } from "react";
+import { googleSign, loginWithEmailPassword, passwordReset } from "@/firebase/firebaseauth";
+import {
+  Box,
+  Button,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
+import { setStateType } from "@/types/types";
 
-function SignIn() {
+function SignIn({ setPageState, pageState }: setStateType) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleSubmit(email: string, password: string) {
+  function handleSubmit() {
     loginWithEmailPassword(email, password);
+  }
+
+  function handlePasswordReset() {
+    if (email) {
+      passwordReset(email);
+    } else {
+      alert("Please enter your email address to reset your password.");
+    }
   }
 
   return (
     <>
-      <section className="min-h-screen flex items-center justify-center bg-dark-green">
-  <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
-    <h1 className="text-2xl font-bold text-dark-green mb-6 text-center">
-      Sign In to Your Account
-    </h1>
-
-    <div className="mb-4">
-      <label htmlFor="email" className="block text-dark-green font-semibold mb-2">
-        Your Email
-      </label>
-      <input
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        type="email"
-        name="email"
-        id="email"
-        placeholder="name@company.com"
-        required
-        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-    </div>
-
-    <div className="mb-4">
-      <label htmlFor="password" className="block text-dark-green font-semibold mb-2">
-        Password
-      </label>
-      <input
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        type="password"
-        name="password"
-        id="password"
-        placeholder="••••••••"
-        required
-        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
-      />
-    </div>
-
-    <div className="mb-6 text-right">
-      <button
-        onClick={() => passwordReset(email)}
-        className="text-green-500 hover:text-green-700 focus:outline-none font-semibold"
+      <Container
+        component="main"
+        maxWidth="xs"
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          minHeight: "100vh",
+        }}
       >
-        Forgot Password?
-      </button>
-    </div>
+        <Box>
+          <Box
+            sx={{
+              mb: 2,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center", 
+            }}
+          >
+            <Button
+              variant={pageState == "SignUp" ? "contained" : "outlined"}
+              color="primary"
+              sx={{ mr: 2 }}
+              onClick={() => {
+                setPageState("SignUp");
+              }}
+            >
+              Sign Up
+            </Button>
+            <Button
+              variant={pageState == "SignIn" ? "contained" : "outlined"}
+              color="primary"
+              onClick={() => {
+                setPageState("SignIn");
+              }}
+            >
+              Sign In
+            </Button>
+          </Box>
 
-    <button
-      onClick={() => handleSubmit(email, password)}
-      className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-    >
-      Sign In
-    </button>
-  </div>
-</section>
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{ textAlign: "center", mb: 3 }}
+          >
+            Sign In to Your Account
+          </Typography>
 
+          <Box component="form" noValidate>
+            <TextField
+              fullWidth
+              label="Email"
+              variant="outlined"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              id="email"
+              size="small"
+              type="email"
+              name="email"
+              autoComplete="email"
+              sx={{ mb: 2 }}
+            />
+
+            <TextField
+              fullWidth
+              label="Password"
+              variant="outlined"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              id="password"
+              size="small"
+              type="password"
+              name="password"
+              sx={{ mb: 2 }}
+            />
+
+            <Button
+              onClick={handlePasswordReset}
+              sx={{
+                textTransform: "none",
+                color: "primary.main",
+                fontWeight: "bold",
+              }}
+            >
+              Forgot Password?
+            </Button>
+
+            <Button
+              fullWidth
+              variant="outlined"
+              color="primary"
+              onClick={handleSubmit}
+              sx={{ mt: 2 }}
+            >
+              Sign In
+            </Button>
+            <Button
+              fullWidth
+              variant="outlined"
+              color="warning"
+              onClick={googleSign}
+              sx={{ mt: 2 }}
+            >
+              Google Sign In
+            </Button>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 }

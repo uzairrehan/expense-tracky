@@ -2,7 +2,6 @@
 
 import SignIn from "@/components/signIn";
 import SignUp from "@/components/signUp";
-import { googleSign } from "@/firebase/firebaseauth";
 import { app } from "@/firebase/firebaseconfig";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,6 @@ import { useEffect, useState } from "react";
 
 function Authenticate() {
   const [pageState, setPageState] = useState("SignUp");
-
   const route = useRouter();
 
   useEffect(() => {
@@ -22,18 +20,15 @@ function Authenticate() {
         route.push("/authenticate");
       }
     });
-  }, []);
+  }, [route]);
+
   return (
     <>
-      <div>
-        <button onClick={googleSign}>Google Signin</button>
-
-        <button onClick={() => setPageState("SignIn")}>Sign In</button>
-
-        <button onClick={() => setPageState("SignUp")}>Sign Up</button>
-      </div>
-
-      {pageState == "SignUp" ? <SignUp /> : <SignIn />}
+      {pageState === "SignUp" ? (
+        <SignUp setPageState={setPageState} pageState={pageState} />
+      ) : (
+        <SignIn setPageState={setPageState} pageState={pageState} />
+      )}
     </>
   );
 }
