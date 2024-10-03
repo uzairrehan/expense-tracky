@@ -4,40 +4,23 @@ import { loginWithEmailPassword, passwordReset } from "@/firebase/firebaseauth";
 import { useState } from "react";
 
 function SignIn() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    function handleSubmit(email: string, password: string) {
-        loginWithEmailPassword(email, password);
-    }
+  function handleSubmit(email: string, password: string) {
+    loginWithEmailPassword(email, password);
+  }
 
-    return (
-        <>
-           <section
-  style={{
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100vh",
-    fontFamily: "Arial, sans-serif",
-  }}
->
-  <div
-    style={{
-      backgroundColor: "#fff",
-      padding: "30px",
-      borderRadius: "10px",
-      boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-      width: "400px",
-      textAlign: "center",
-    }}
-  >
-    <h1 style={{ fontSize: "24px", marginBottom: "20px" }}>
+  return (
+    <>
+      <section className="min-h-screen flex items-center justify-center bg-dark-green">
+  <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h1 className="text-2xl font-bold text-dark-green mb-6 text-center">
       Sign In to Your Account
     </h1>
 
-    <div style={{ marginBottom: "15px", textAlign: "left" }}>
-      <label htmlFor="email" style={{ fontSize: "14px", color: "#555" }}>
+    <div className="mb-4">
+      <label htmlFor="email" className="block text-dark-green font-semibold mb-2">
         Your Email
       </label>
       <input
@@ -48,18 +31,12 @@ function SignIn() {
         id="email"
         placeholder="name@company.com"
         required
-        style={{
-          width: "100%",
-          padding: "10px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          marginTop: "5px",
-        }}
+        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
       />
     </div>
 
-    <div style={{ marginBottom: "15px", textAlign: "left" }}>
-      <label htmlFor="password" style={{ fontSize: "14px", color: "#555" }}>
+    <div className="mb-4">
+      <label htmlFor="password" className="block text-dark-green font-semibold mb-2">
         Password
       </label>
       <input
@@ -70,26 +47,14 @@ function SignIn() {
         id="password"
         placeholder="••••••••"
         required
-        style={{
-          width: "100%",
-          padding: "10px",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          marginTop: "5px",
-        }}
+        className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
       />
     </div>
 
-    <div style={{ textAlign: "right", marginBottom: "15px" }}>
+    <div className="mb-6 text-right">
       <button
         onClick={() => passwordReset(email)}
-        style={{
-          backgroundColor: "transparent",
-          border: "none",
-          color: "#007bff",
-          fontSize: "14px",
-          cursor: "pointer",
-        }}
+        className="text-green-500 hover:text-green-700 focus:outline-none font-semibold"
       >
         Forgot Password?
       </button>
@@ -97,23 +62,15 @@ function SignIn() {
 
     <button
       onClick={() => handleSubmit(email, password)}
-      style={{
-        backgroundColor: "#007bff",
-        color: "#fff",
-        padding: "10px 20px",
-        border: "none",
-        borderRadius: "5px",
-        fontSize: "16px",
-        cursor: "pointer",
-        width: "100%",
-      }}
+      className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
     >
       Sign In
     </button>
   </div>
 </section>
-        </>
-    );
+
+    </>
+  );
 }
 
 export default SignIn;

@@ -1,16 +1,21 @@
 "use client";
 
+// import { Barr } from "@/components/bar";
+// import { Doughnutt } from "@/components/doghnut";
 import ExpenceList from "@/components/expenceList";
 import Sidebar from "@/components/sidebar";
+// import Sidebar from "@/components/sidebar";
+
 
 function Dashboard() {
-
-    return (
-        <>        <Sidebar/>
-
-            <ExpenceList val={"dashboard"} />
-        </>
-    );
+  return (
+    <>
+      {/* <Doughnutt/> */}
+      {/* <Barr/> */}
+      <Sidebar />
+      <ExpenceList val={"dashboard"} />
+    </>
+  );
 }
 
-export default Dashboard; 
+export default Dashboard;
