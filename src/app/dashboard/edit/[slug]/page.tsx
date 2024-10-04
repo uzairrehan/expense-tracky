@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/components/sidebar";
+// import Sidebar from "@/components/sidebar";
 import { db } from "@/firebase/firebasefirestore";
 import {  CategoryType, ExpenseType } from "@/types/types";
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
@@ -85,7 +85,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <Sidebar />
+      {/* <Sidebar /> */}
 
       <form onSubmit={handleSubmit} className="flex p-5 flex-col gap-4">
         <TextField

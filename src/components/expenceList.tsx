@@ -22,6 +22,7 @@ import {
 import Link from "next/link";
 import { Doughnutt } from "./doghnut";
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+// import { Barr } from "./bar";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ExpenseList() {
@@ -141,7 +142,13 @@ function ExpenseList() {
 
   return (
     <>
-      <Doughnutt dataa={doghnutData} />
+      <div className="flex gap-2 m-2 mb-2" >
+
+      <Doughnutt dataa={doghnutData} className="w-1/2" responsive/>
+      {/* <Barr className="w-1/2" responsive/> */}
+
+      </div>
+
       <div className="flex gap-2 m-2 mb-2">
         <FormControl size="small" className="w-1/2">
           <InputLabel id="demo-select-small-label">Filter by Category</InputLabel>
