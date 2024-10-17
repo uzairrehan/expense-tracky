@@ -2,14 +2,6 @@
 
 import { db } from "@/firebase/firebasefirestore";
 import { CategoryType, ExpenseType } from "@/types/types";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -83,65 +75,64 @@ export default function Page({ params }: { params: { slug: string } }) {
   if (error) return <p>{error}</p>;
 
   return (
-    <>
-      <form onSubmit={handleSubmit} className="flex p-5 flex-col gap-4">
-        <TextField
-          id="outlined-basic"
-          label="Title"
-          variant="outlined"
-          size="small"
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          fullWidth
-        />
+<>
+  <form onSubmit={handleSubmit} className="flex flex-col p-5 gap-4">
+    <input
+      id="title"
+      type="text"
+      placeholder="Title"
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      required
+      className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
 
-        <TextField
-          id="outlined-basic"
-          label="Amount"
-          variant="outlined"
-          size="small"
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          required
-          fullWidth
-        />
+    <input
+      id="amount"
+      type="number"
+      placeholder="Amount"
+      value={amount}
+      onChange={(e) => setAmount(Number(e.target.value))}
+      required
+      className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
 
-        <FormControl size="small" fullWidth>
-          <InputLabel id="demo-select-small-label">Category</InputLabel>
-          <Select
-            labelId="demo-select-small-label"
-            id="demo-select-small"
-            value={category}
-            label="Age"
-            required
-            onChange={(e) => setCategory(e.target.value as CategoryType)}
-          >
-            <MenuItem value="Food">Food</MenuItem>
-            <MenuItem value="Transport">Transport</MenuItem>
-            <MenuItem value="Bills">Bills</MenuItem>
-            <MenuItem value="Education">Education</MenuItem>
-            <MenuItem value="Investments">Investments</MenuItem>
-            <MenuItem value="Luxuries">Luxuries</MenuItem>
-            <MenuItem value="Other">Other</MenuItem>
-          </Select>
-        </FormControl>
+    <div className="relative">
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value as CategoryType)}
+        required
+        className="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option value="" disabled>
+          Category
+        </option>
+        <option value="Food">Food</option>
+        <option value="Transport">Transport</option>
+        <option value="Bills">Bills</option>
+        <option value="Education">Education</option>
+        <option value="Investments">Investments</option>
+        <option value="Luxuries">Luxuries</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
 
-        <TextField
-          id="outlined-basic"
-          label="Optional Note"
-          variant="outlined"
-          size="small"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-        ></TextField>
+    <textarea
+      id="note"
+      placeholder="Optional Note"
+      value={note}
+      onChange={(e) => setNote(e.target.value)}
+      className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    ></textarea>
 
-        <Button variant="outlined" type="submit" color="success" size="large">
-          Save Expense
-        </Button>
-      </form>
-    </>
+    <button
+      type="submit"
+      className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-600 transition"
+    >
+      Save Expense
+    </button>
+  </form>
+</>
+
   );
 }

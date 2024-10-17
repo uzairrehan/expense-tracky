@@ -2,13 +2,6 @@
 
 import { useState } from "react";
 import { googleSign, loginWithEmailPassword, passwordReset } from "@/firebase/firebaseauth";
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-} from "@mui/material";
 import { setStateType } from "@/types/types";
 
 function SignIn({ setPageState, pageState }: setStateType) {
@@ -28,119 +21,74 @@ function SignIn({ setPageState, pageState }: setStateType) {
   }
 
   return (
-    <>
-      <Container
-        component="main"
-        maxWidth="xs"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          minHeight: "100vh",
-        }}
-      >
-        <Box>
-          <Box
-            sx={{
-              mb: 2,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center", 
-            }}
-          >
-            <Button
-              variant={pageState == "SignUp" ? "contained" : "outlined"}
-              color="primary"
-              sx={{ mr: 2 }}
-              onClick={() => {
-                setPageState("SignUp");
-              }}
-            >
-              Sign Up
-            </Button>
-            <Button
-              variant={pageState == "SignIn" ? "contained" : "outlined"}
-              color="primary"
-              onClick={() => {
-                setPageState("SignIn");
-              }}
-            >
-              Sign In
-            </Button>
-          </Box>
+    <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="mb-4 flex justify-center items-center">
+        <button
+          className={`mr-2 px-4 py-2 rounded ${pageState === "SignUp" ? "bg-blue-500 text-white" : "border border-blue-500 text-blue-500"}`}
+          onClick={() => setPageState("SignUp")}
+        >
+          Sign Up
+        </button>
+        <button
+          className={`px-4 py-2 rounded ${pageState === "SignIn" ? "bg-blue-500 text-white" : "border border-blue-500 text-blue-500"}`}
+          onClick={() => setPageState("SignIn")}
+        >
+          Sign In
+        </button>
+      </div>
 
-          <Typography
-            component="h1"
-            variant="h5"
-            sx={{ textAlign: "center", mb: 3 }}
-          >
-            Sign In to Your Account
-          </Typography>
+      <h1 className="text-2xl text-center mb-3">Sign In to Your Account</h1>
 
-          <Box component="form" noValidate>
-            <TextField
-              fullWidth
-              label="Email"
-              variant="outlined"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              id="email"
-              size="small"
-              type="email"
-              name="email"
-              autoComplete="email"
-              sx={{ mb: 2 }}
-            />
+      <form noValidate onSubmit={handleSubmit} className="w-full max-w-xs">
+        <div className="mb-2">
+          <input
+            className="w-full px-3 py-2 border border-gray-300 rounded"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            type="email"
+            name="email"
+            autoComplete="email"
+          />
+        </div>
 
-            <TextField
-              fullWidth
-              label="Password"
-              variant="outlined"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              id="password"
-              size="small"
-              type="password"
-              name="password"
-              sx={{ mb: 2 }}
-            />
+        <div className="mb-2">
+          <input
+            className="w-full px-3 py-2 border border-gray-300 rounded"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            type="password"
+            name="password"
+          />
+        </div>
 
-            <Button
-              onClick={handlePasswordReset}
-              sx={{
-                textTransform: "none",
-                color: "primary.main",
-                fontWeight: "bold",
-              }}
-            >
-              Forgot Password?
-            </Button>
+        <button
+          className="text-blue-500 font-bold mb-2"
+          onClick={handlePasswordReset}
+          type="button"
+        >
+          Forgot Password?
+        </button>
 
-            <Button
-              fullWidth
-              variant="outlined"
-              color="primary"
-              onClick={handleSubmit}
-              sx={{ mt: 2 }}
-            >
-              Sign In
-            </Button>
-            <Button
-              fullWidth
-              variant="outlined"
-              color="warning"
-              onClick={googleSign}
-              sx={{ mt: 2 }}
-            >
-              Google Sign In
-            </Button>
-          </Box>
-        </Box>
-      </Container>
-    </>
+        <button
+          className="w-full px-4 py-2 border border-blue-500 text-blue-500 rounded mt-2"
+          onClick={handleSubmit}
+          type="button"
+        >
+          Sign In
+        </button>
+        <button
+          className="w-full px-4 py-2 border border-yellow-500 text-yellow-500 rounded mt-2"
+          onClick={googleSign}
+          type="button"
+        >
+          Google Sign In
+        </button>
+      </form>
+    </div>
   );
 }
 

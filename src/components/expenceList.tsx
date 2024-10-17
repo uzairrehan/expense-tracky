@@ -3,13 +3,6 @@ import { useEffect, useState } from "react";
 import { auth } from "@/firebase/firebaseauth";
 import { db } from "@/firebase/firebasefirestore";
 import { onAuthStateChanged } from "firebase/auth";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
 
 import {
   collection,
@@ -20,15 +13,7 @@ import {
   where,
 } from "firebase/firestore";
 import Link from "next/link";
-import { Doughnutt } from "./doghnut";
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+
 
 function ExpenseList() {
   const [expense, setExpense] = useState<DocumentData[]>([]);
@@ -43,7 +28,7 @@ function ExpenseList() {
     "Transport",
     "Food",
   ];
-  const [doghnutData, setDoghnutData] = useState<number[]>([]);
+  // const [doghnutData, setDoghnutData] = useState<number[]>([]);
 
   const sortedAndSummedExpenses = () => {
     const categoryTotals: Record<string, number> = {};
@@ -74,7 +59,7 @@ function ExpenseList() {
     const totalsArray = category_order.map(
       (category) => categoryTotals[category]
     );
-    setDoghnutData(totalsArray);
+    // setDoghnutData(totalsArray);
 
     return { sortedExpenses, totalsArray };
   };
@@ -145,108 +130,98 @@ function ExpenseList() {
     return isCategoryMatch && isAmountMatch;
   });
 
+
   return (
     <>
       <div className="flex gap-2 m-2 mb-2">
-        <Doughnutt dataa={doghnutData} className="w-1/2" responsive />
+        {/* <Doughnutt dataa={doghnutData} className="w-1/2" responsive /> */}
       </div>
-
+  
       <div className="flex gap-2 m-2 mb-2">
-        <FormControl size="small" className="w-1/2">
-          <InputLabel id="demo-select-small-label">
-            Filter by Category
-          </InputLabel>
-          <Select
-            labelId="demo-select-small-label"
-            id="demo-select-small"
+        <div className="relative w-1/2">
+          <select
             value={categoryFilter}
-            label="Category"
-            required
             onChange={(e) => setCategoryFilter(e.target.value)}
+            className="block w-full p-2 border rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           >
-            <MenuItem value="all">All</MenuItem>
-            <MenuItem value="Food">Food</MenuItem>
-            <MenuItem value="Transport">Transport</MenuItem>
-            <MenuItem value="Bills">Bills</MenuItem>
-            <MenuItem value="Education">Education</MenuItem>
-            <MenuItem value="Investments">Investments</MenuItem>
-            <MenuItem value="Luxuries">Luxuries</MenuItem>
-            <MenuItem value="Other">Other</MenuItem>
-          </Select>
-        </FormControl>
-
-        <TextField
-          className="w-1/2"
+            <option value="">Filter by Category</option>
+            <option value="all">All</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Bills">Bills</option>
+            <option value="Education">Education</option>
+            <option value="Investments">Investments</option>
+            <option value="Luxuries">Luxuries</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+  
+        <input
+          className="w-1/2 p-2 border rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
           id="outlined-basic"
-          label="Filter by Amount"
-          variant="outlined"
-          size="small"
+          placeholder="Filter by Amount"
           type="number"
           value={amountFilter}
           onChange={(e) => setAmountFilter(Number(e.target.value))}
           required
         />
       </div>
-
+  
       {loading ? (
         <div className="text-center text-gray-500">Loading...</div>
       ) : filteredExpenses.length > 0 ? (
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell align="right">Amount</TableCell>
-                <TableCell align="right">Category</TableCell>
-                <TableCell align="right">Date</TableCell>
-                <TableCell align="right">Note</TableCell>
-                <TableCell align="right">Delete</TableCell>
-                <TableCell align="right">Edit</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
+        <div className="overflow-x-auto m-2">
+          <table className="min-w-full border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border px-4 py-2">Title</th>
+                <th className="border px-4 py-2 text-right">Amount</th>
+                <th className="border px-4 py-2 text-right">Category</th>
+                <th className="border px-4 py-2 text-right">Date</th>
+                <th className="border px-4 py-2 text-right">Note</th>
+                <th className="border px-4 py-2 text-right">Delete</th>
+                <th className="border px-4 py-2 text-right">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
               {filteredExpenses.map(
                 ({ amount, category, date, note, title, firebaseID }) => (
-                  <TableRow
-                    key={firebaseID}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row">
-                      {title}
-                    </TableCell>
-                    <TableCell align="right">{amount}</TableCell>
-                    <TableCell align="right">{category}</TableCell>
-                    <TableCell align="right">
+                  <tr key={firebaseID} className="hover:bg-gray-100">
+                    <td className="border px-4 py-2">{title}</td>
+                    <td className="border px-4 py-2 text-right">{amount}</td>
+                    <td className="border px-4 py-2 text-right">{category}</td>
+                    <td className="border px-4 py-2 text-right">
                       {date.toDate().toLocaleDateString()}
-                    </TableCell>
-                    <TableCell align="right">{note}</TableCell>
-                    <TableCell align="right">
-                      <Button
+                    </td>
+                    <td className="border px-4 py-2 text-right">{note}</td>
+                    <td className="border px-4 py-2 text-right">
+                      <button
                         onClick={() => deleteExpense(firebaseID)}
-                        variant="outlined"
-                        color="error"
+                        className="bg-red-500 text-white rounded px-4 py-1 hover:bg-red-600 transition"
                       >
                         Delete
-                      </Button>
-                    </TableCell>
-                    <TableCell align="right">
+                      </button>
+                    </td>
+                    <td className="border px-4 py-2 text-right">
                       <Link href={`dashboard/edit/${firebaseID}`}>
-                        <Button variant="outlined" color="warning">
+                        <button className="bg-yellow-500 text-white rounded px-4 py-1 hover:bg-yellow-600 transition">
                           Edit
-                        </Button>
+                        </button>
                       </Link>
-                    </TableCell>
-                  </TableRow>
+                    </td>
+                  </tr>
                 )
               )}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            </tbody>
+          </table>
+        </div>
       ) : (
-        <>No expense</>
+        <div className="text-center text-gray-500">No expense</div>
       )}
     </>
   );
+  
 }
 
 export default ExpenseList;

@@ -1,84 +1,76 @@
 "use client";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  Menu,
-  MenuItem,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+
 import Link from "next/link";
 import { useState } from "react";
 import { signOutFunc } from "@/firebase/firebaseauth";
 import Image from "next/image";
 
 const Navbar = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleMenuOpen = (event:any) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleMenuClose = () => {
-    setAnchorEl(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen((prev) => !prev);
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+    <nav className="bg-blue-500">
+      <div className="flex justify-between items-center p-4">
+        <div className="flex items-center">
           <Link href="/">
             <Image src={"/images/2.png"} width={100} height={80} alt={"Logo"} />
           </Link>
-        </Typography>
+        </div>
 
-        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
+        <div className="hidden md:flex items-center space-x-4">
           <Link href="/dashboard">
-            <Button variant="outlined">Home</Button>
+            <button className="text-white border border-white rounded px-4 py-2 hover:bg-white hover:text-blue-500 transition">
+              Home
+            </button>
           </Link>
           <Link href="/dashboard/add">
-            <Button variant="outlined" >Add</Button>
+            <button className="text-white border border-white rounded px-4 py-2 hover:bg-white hover:text-blue-500 transition">
+              Add
+            </button>
           </Link>
-          <Button color="error" onClick={signOutFunc}>
+          <button
+            className="text-white border border-red-500 rounded px-4 py-2 bg-red-500 hover:bg-red-600 transition"
+            onClick={signOutFunc}
+          >
             Sign Out
-          </Button>
-        </Box>
+          </button>
+        </div>
 
-        <Box sx={{ display: { xs: "flex", md: "none" } }}>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={handleMenuOpen}
+        <div className="md:hidden">
+          <button onClick={handleMenuToggle} className="text-white">
+            Menu
+          </button>
+        </div>
+      </div>
+
+      {isMenuOpen && (
+        <div className="md:hidden bg-blue-600 p-4">
+          <Link href="/dashboard">
+            <button onClick={handleMenuToggle} className="text-white block w-full text-left py-2 hover:bg-blue-500 transition">
+              Home
+            </button>
+          </Link>
+          <Link href="/dashboard/add">
+            <button onClick={handleMenuToggle} className="text-white block w-full text-left py-2 hover:bg-blue-500 transition">
+              Add
+            </button>
+          </Link>
+          <button
+            onClick={() => {
+              handleMenuToggle();
+              signOutFunc();
+            }}
+            className="text-white block w-full text-left py-2 hover:bg-blue-500 transition"
           >
-            <MenuIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-          >
-            <MenuItem onClick={handleMenuClose}>
-              <Link href="/dashboard">
-                <Button variant="text">Home</Button>
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
-              <Link href="/dashboard/add">
-                <Button variant="text">Add</Button>
-              </Link>
-            </MenuItem>
-            <MenuItem onClick={signOutFunc}>
-              <Button color="error">Sign Out</Button>
-            </MenuItem>
-          </Menu>
-        </Box>
-      </Toolbar>
-    </AppBar>
+            Sign Out
+          </button>
+        </div>
+      )}
+    </nav>
   );
 };
 

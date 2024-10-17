@@ -23,13 +23,13 @@ function Authenticate() {
   }, [route]);
 
   return (
-    <>
+    <div className="flex justify-center items-center min-h-screen">
       {pageState === "SignUp" ? (
         <SignUp setPageState={setPageState} pageState={pageState} />
       ) : (
         <SignIn setPageState={setPageState} pageState={pageState} />
       )}
-    </>
+    </div>
   );
 }
 
