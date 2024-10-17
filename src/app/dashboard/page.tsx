@@ -1,7 +1,6 @@
 "use client";
 
 import ExpenceList from "@/components/expenceList";
-// import Sidebar from "@/components/sidebar";
 import { auth } from "@/firebase/firebaseauth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -16,7 +15,6 @@ function Dashboard() {
   }, [])
   return (
     <>
-      {/* <Sidebar /> */}
       <ExpenceList />
     </>
   );

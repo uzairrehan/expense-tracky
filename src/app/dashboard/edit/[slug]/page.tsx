@@ -1,16 +1,20 @@
 "use client";
 
-// import Sidebar from "@/components/sidebar";
 import { db } from "@/firebase/firebasefirestore";
-import {  CategoryType, ExpenseType } from "@/types/types";
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { CategoryType, ExpenseType } from "@/types/types";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Page({ params }: { params: { slug: string } }) {
-  // all states that willl be used in this page
-
   const [loading, setLoading] = useState(true);
   const selID: string = params.slug;
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +25,6 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [note, setNote] = useState<string>("");
   const route = useRouter();
 
-  // this func is fetching the dtata and also setting it
   useEffect(() => {
     if (selID) {
       const fetchExpense = async () => {
@@ -31,7 +34,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           if (expenseSnap.exists()) {
             const expenseData = expenseSnap.data() as ExpenseType;
             setExpense(expenseData);
-
             setTitle(expenseData.title);
             setAmount(expenseData.amount);
             setCategory(expenseData.category);
@@ -51,7 +53,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
   }, [selID]);
 
-  // this dunction is handling the submit
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (title && amount && category !== "None" && note) {
@@ -76,8 +77,6 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
   }
 
-  // loading component will show if the data is in process
-
   if (loading) {
     return <div></div>;
   }
@@ -85,8 +84,6 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      {/* <Sidebar /> */}
-
       <form onSubmit={handleSubmit} className="flex p-5 flex-col gap-4">
         <TextField
           id="outlined-basic"
@@ -145,8 +142,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           Save Expense
         </Button>
       </form>
-
-
     </>
   );
 }

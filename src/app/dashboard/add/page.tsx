@@ -1,5 +1,5 @@
 "use client";
-// import Sidebar from "@/components/sidebar";
+
 import { saveExpense } from "@/firebase/firebasefirestore";
 import { CategoryType } from "@/types/types";
 import {
@@ -37,7 +37,7 @@ function Add() {
 
   return (
     <>
-      {/* <Sidebar /> */}
+    
 
       <form onSubmit={handleSubmit} className="flex p-5 flex-col gap-4">
         <TextField
@@ -98,7 +98,7 @@ function Add() {
         </Button>
       </form>
 
-      {/* <ExpenceList val={"add"} /> */}
+     
     </>
   );
 }

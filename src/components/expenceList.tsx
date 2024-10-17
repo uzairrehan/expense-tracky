@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { auth } from "@/firebase/firebaseauth";
 import { db } from "@/firebase/firebasefirestore";
 import { onAuthStateChanged } from "firebase/auth";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 import {
   collection,
@@ -21,10 +21,15 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 import { Doughnutt } from "./doghnut";
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-// import { Barr } from "./bar";
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ExpenseList() {
   const [expense, setExpense] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -90,7 +95,7 @@ function ExpenseList() {
         console.log("Component Unmount.");
         readTodosRealtime();
       }
-      detachOnAuthListener(); // Corrected position of detachOnAuthListener
+      detachOnAuthListener();
     };
   }, []);
 
@@ -142,16 +147,15 @@ function ExpenseList() {
 
   return (
     <>
-      <div className="flex gap-2 m-2 mb-2" >
-
-      <Doughnutt dataa={doghnutData} className="w-1/2" responsive/>
-      {/* <Barr className="w-1/2" responsive/> */}
-
+      <div className="flex gap-2 m-2 mb-2">
+        <Doughnutt dataa={doghnutData} className="w-1/2" responsive />
       </div>
 
       <div className="flex gap-2 m-2 mb-2">
         <FormControl size="small" className="w-1/2">
-          <InputLabel id="demo-select-small-label">Filter by Category</InputLabel>
+          <InputLabel id="demo-select-small-label">
+            Filter by Category
+          </InputLabel>
           <Select
             labelId="demo-select-small-label"
             id="demo-select-small"
@@ -201,30 +205,40 @@ function ExpenseList() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredExpenses.map(({ amount, category, date, note, title, firebaseID }) => (
-                <TableRow
-                  key={firebaseID}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">{title}</TableCell>
-                  <TableCell align="right">{amount}</TableCell>
-                  <TableCell align="right">{category}</TableCell>
-                  <TableCell align="right">{date.toDate().toLocaleDateString()}</TableCell>
-                  <TableCell align="right">{note}</TableCell>
-                  <TableCell align="right">
-                    <Button onClick={() => deleteExpense(firebaseID)} variant="outlined" color="error">
-                      Delete
-                    </Button>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Link href={`dashboard/edit/${firebaseID}`}>
-                      <Button variant="outlined" color="warning">
-                        Edit
+              {filteredExpenses.map(
+                ({ amount, category, date, note, title, firebaseID }) => (
+                  <TableRow
+                    key={firebaseID}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {title}
+                    </TableCell>
+                    <TableCell align="right">{amount}</TableCell>
+                    <TableCell align="right">{category}</TableCell>
+                    <TableCell align="right">
+                      {date.toDate().toLocaleDateString()}
+                    </TableCell>
+                    <TableCell align="right">{note}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        onClick={() => deleteExpense(firebaseID)}
+                        variant="outlined"
+                        color="error"
+                      >
+                        Delete
                       </Button>
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
+                    </TableCell>
+                    <TableCell align="right">
+                      <Link href={`dashboard/edit/${firebaseID}`}>
+                        <Button variant="outlined" color="warning">
+                          Edit
+                        </Button>
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                )
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -235,4 +249,4 @@ function ExpenseList() {
   );
 }
 
-export default ExpenseList; // Corrected the export statement
+export default ExpenseList;
