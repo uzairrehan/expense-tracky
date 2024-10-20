@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
 import * as React from "react"
@@ -155,7 +156,7 @@ const ChartTooltipContent = React.forwardRef<
         return (
           <div className={cn("font-medium", labelClassName)}>
             {labelFormatter(value, payload)}
-          </div>
+          </div> 
         )
       }
 

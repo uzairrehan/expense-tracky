@@ -17,5 +17,5 @@ export default function Home() {
     });
   }, [route]);
 
-  return <></>;
+  return <>Home</>;
 }

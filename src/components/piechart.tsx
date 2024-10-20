@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import * as React from "react";
@@ -9,8 +10,20 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
+// Define the type for the data item
+type DoughnutDataItem = {
+  category: keyof typeof categoryColors; // Limits to the keys of categoryColors
+  amount: number;
+};
 
-const categoryColors = {
+type ChartDataItem = {
+  category: keyof typeof categoryColors;
+  amount: number;
+  fill: string;
+};
+
+// Ensure that your category colors are typed properly
+const categoryColors: Record<string, string> = {
   Luxuries: "hsl(var(--chart-1))",
   Transport: "hsl(var(--chart-2))",
   Investments: "hsl(var(--chart-3))",
@@ -19,20 +32,25 @@ const categoryColors = {
 };
 
 
-export function MyPieChart({ doghnutData }) {
-  const chartData = doghnutData.reduce((acc, curr) => {
-    const categoryIndex = acc.findIndex(item => item.category === curr.category);
-    if (categoryIndex > -1) {
-      acc[categoryIndex].amount += curr.amount;
-    } else {
-      acc.push({
-        category: curr.category,
-        amount: curr.amount,
-        fill: categoryColors[curr.category] || "hsl(var(--chart-default))",
-      });
-    }
-    return acc;
-  }, []);
+export function MyPieChart({ doghnutData }:any) {
+  const chartData: ChartDataItem[] = doghnutData.reduce(
+    (acc: ChartDataItem[], curr: DoughnutDataItem) => {
+      const categoryIndex = acc.findIndex(
+        (item) => item.category === curr.category
+      );
+      if (categoryIndex > -1) {
+        acc[categoryIndex].amount += curr.amount;
+      } else {
+        acc.push({
+          category: curr.category,
+          amount: curr.amount,
+          fill: categoryColors[curr.category] || "hsl(var(--chart-default))",
+        });
+      }
+      return acc;
+    },
+    []
+  );
 
   const chartConfig = {
     amount: {
@@ -42,7 +60,7 @@ export function MyPieChart({ doghnutData }) {
 
   return (
     <>
-      {chartData ? (
+      {chartData.length > 0 ? (
         <Card className="flex flex-col border-none shadow-none">
           <CardContent className="flex-1 pb-0">
             <ChartContainer
@@ -60,8 +78,7 @@ export function MyPieChart({ doghnutData }) {
                   nameKey="category"
                   innerRadius={60}
                   strokeWidth={5}
-                  // Step 3: Use the `fill` attribute to color the slices
-                  fill={({ category }) => categoryColors[category] || "#ccc"}
+                  fill={"#ccc"}
                 >
                   <Label
                     content={({ viewBox }) => {
@@ -101,9 +118,7 @@ export function MyPieChart({ doghnutData }) {
             </ChartContainer>
           </CardContent>
         </Card>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </>
   );
 }

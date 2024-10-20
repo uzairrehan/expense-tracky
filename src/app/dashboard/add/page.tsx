@@ -24,6 +24,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 
 function Add() {
   const [title, setTitle] = useState("");
@@ -32,14 +33,20 @@ function Add() {
   const [note, setNote] = useState("");
   const [date] = useState(new Date());
   const route = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
     if (amount && title && category) {
       e.preventDefault();
+    setIsLoading(true);
+
       saveExpense(title, amount, date, category, note);
       setAmount(0);
       setCategory("none");
       setTitle("");
       setNote("");
+    setIsLoading(false);
+
       route.push("/dashboard");
     } else {
       e.preventDefault();
@@ -115,6 +122,7 @@ function Add() {
         </CardContent>
         <CardFooter>
           <Button onClick={handleSubmit}>
+          {isLoading && <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 transform rotate-45" />}
             
             Save
             
