@@ -2,6 +2,7 @@ import { addDoc, collection, deleteDoc,doc, getFirestore,setDoc, updateDoc,} fro
 import { app } from "./firebaseconfig";
 import { auth } from "./firebaseauth";
 import { UserType } from "@/types/types";
+import { toast } from "@/hooks/use-toast";
 
 export const db = getFirestore(app);
 
@@ -29,8 +30,15 @@ export async function saveExpense(title: string, amount: number, date: Date, cat
     await updateDoc(docRefToUpdate, {
       firebaseID: docRef.id
     });
+    toast({
+      title: "Expense Saved !",
+    })
   } catch (error) {
     console.log(error);
+    toast({
+      variant: "destructive" ,
+      title: "Cant Save Expense !"
+    })
   }
 }
 
@@ -39,6 +47,9 @@ export async function saveExpense(title: string, amount: number, date: Date, cat
 export async function deleteExpense(firebaseID: string) {
   await deleteDoc(doc(db, "expenses", firebaseID));
   console.log(firebaseID)
+  toast({
+    title: "Expense Deleted !",
+  })
 }
 
 
