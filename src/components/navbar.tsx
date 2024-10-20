@@ -4,19 +4,17 @@ import * as React from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
 
-// import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
-  // NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  // NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Image from "next/image";
+import { signOutFunc } from "@/firebase/firebaseauth";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -38,25 +36,27 @@ export default function Navbar() {
               <NavigationMenuItem>
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
-                  href="/about"
+                  href="/dashboard"
                 >
-                  About
+                  Dashboard
                 </NavigationMenuLink>
               </NavigationMenuItem>
+
               <NavigationMenuItem>
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
-                  href="/services"
+                  href="/dashboard/add"
                 >
-                  Services
+                  Add
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+
+              <NavigationMenuItem className="text-destructive">
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
-                  href="/contact"
+                  onClick={signOutFunc}
                 >
-                  Contact
+                  Logout
                 </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
@@ -72,26 +72,29 @@ export default function Navbar() {
           <SheetContent side="right">
             <nav className="flex flex-col space-y-4">
               <Link
-                href="/about"
+                href="/dashboard"
                 className="text-lg font-medium"
                 onClick={() => setIsOpen(false)}
               >
-                About
+                Dashboard
               </Link>
               <Link
-                href="/services"
+                href="/dashboard/add"
                 className="text-lg font-medium"
                 onClick={() => setIsOpen(false)}
               >
-                Services
+                Add
               </Link>
-              <Link
-                href="/contact"
-                className="text-lg font-medium"
-                onClick={() => setIsOpen(false)}
+              <Button
+                className="text-lg font-medium "
+                variant={"destructive"}
+                onClick={() =>{
+                   setIsOpen(false)
+                   signOutFunc()
+                  }}
               >
-                Contact
-              </Link>
+                Logout
+              </Button>
             </nav>
           </SheetContent>
         </Sheet>

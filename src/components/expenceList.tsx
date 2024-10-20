@@ -3,6 +3,15 @@ import { useEffect, useState } from "react";
 import { auth } from "@/firebase/firebaseauth";
 import { db } from "@/firebase/firebasefirestore";
 import { onAuthStateChanged } from "firebase/auth";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 import {
   collection,
@@ -13,60 +22,24 @@ import {
   where,
 } from "firebase/firestore";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MyPieChart } from "./piechart";
 
 function ExpenseList() {
   const [expense, setExpense] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [amountFilter, setAmountFilter] = useState<number>(0);
-  const category_order = [
-    "Luxuries",
-    "Investments",
-    "Education",
-    "Bills",
-    "Transport",
-    "Food",
-  ];
-  // const [doghnutData, setDoghnutData] = useState<number[]>([]);
 
-  const sortedAndSummedExpenses = () => {
-    const categoryTotals: Record<string, number> = {};
-    const sortedExpenses: DocumentData[] = [];
-
-    category_order.forEach((category) => {
-      categoryTotals[category] = 0;
-    });
-
-    expense.forEach((expenseItem) => {
-      const { category, amount } = expenseItem;
-      if (category_order.includes(category)) {
-        sortedExpenses.push(expenseItem);
-        categoryTotals[category] += amount;
-      }
-    });
-
-    sortedExpenses.sort((a, b) => {
-      const categoryIndexA = category_order.indexOf(a.category);
-      const categoryIndexB = category_order.indexOf(b.category);
-
-      if (categoryIndexA === categoryIndexB) {
-        return a.amount - b.amount;
-      }
-      return categoryIndexA - categoryIndexB;
-    });
-
-    const totalsArray = category_order.map(
-      (category) => categoryTotals[category]
-    );
-    // setDoghnutData(totalsArray);
-
-    return { sortedExpenses, totalsArray };
-  };
-
-  useEffect(() => {
-    sortedAndSummedExpenses();
-  }, [expense]);
-
+ 
   useEffect(() => {
     const detachOnAuthListener = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -131,32 +104,33 @@ function ExpenseList() {
 
   return (
     <>
-      <div className="flex gap-2 m-2 mb-2">
-        {/* <Doughnutt dataa={doghnutData} className="w-1/2" responsive /> */}
-      </div>
-
+        <MyPieChart doghnutData={expense}/>
+    
       <div className="flex gap-2 m-2 mb-2">
         <div className="relative w-1/2">
-          <select
+          <Select
             value={categoryFilter}
-            onChange={(e) => setCategoryFilter(e.target.value)}
-            className="block w-full p-2 border rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onValueChange={(e) => setCategoryFilter(e)}
             required
           >
-            <option value="">Filter by Category</option>
-            <option value="all">All</option>
-            <option value="Food">Food</option>
-            <option value="Transport">Transport</option>
-            <option value="Bills">Bills</option>
-            <option value="Education">Education</option>
-            <option value="Investments">Investments</option>
-            <option value="Luxuries">Luxuries</option>
-            <option value="Other">Other</option>
-          </select>
+            <SelectTrigger className="w-full ">
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem  value="all" defaultChecked >All</SelectItem >
+              <SelectItem  value="Food">Food</SelectItem >
+              <SelectItem  value="Transport">Transport</SelectItem >
+              <SelectItem  value="Bills">Bills</SelectItem >
+              <SelectItem  value="Education">Education</SelectItem >
+              <SelectItem  value="Investments">Investments</SelectItem >
+              <SelectItem  value="Luxuries">Luxuries</SelectItem >
+              <SelectItem  value="Other">Other</SelectItem >
+            </SelectContent>
+          </Select>
         </div>
 
-        <input
-          className="w-1/2 p-2 border rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+        <Input
+          className="w-1/2 p-2 "
           id="outlined-basic"
           placeholder="Filter by Amount"
           type="number"
@@ -170,53 +144,53 @@ function ExpenseList() {
         <div className="text-center text-gray-500">Loading...</div>
       ) : filteredExpenses.length > 0 ? (
         <div className="overflow-x-auto m-2">
-          <table className="min-w-full border border-gray-300">
-            <thead>
-              <tr className="bg-gray-200">
-                <th className="border px-4 py-2">Title</th>
-                <th className="border px-4 py-2 text-right">Amount</th>
-                <th className="border px-4 py-2 text-right">Category</th>
-                <th className="border px-4 py-2 text-right">Date</th>
-                <th className="border px-4 py-2 text-right">Note</th>
-                <th className="border px-4 py-2 text-right">Delete</th>
-                <th className="border px-4 py-2 text-right">Edit</th>
-              </tr>
-            </thead>
-            <tbody>
+          <Table className="min-w-full ">
+            <TableCaption>A list of your All Expenses.</TableCaption>
+
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Title</TableHead>
+                <TableHead>Amount</TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>Date</TableHead>
+                <TableHead>Note</TableHead>
+                <TableHead className="text-right">Delete</TableHead>
+                <TableHead className=" text-right">Edit</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
               {filteredExpenses.map(
                 ({ amount, category, date, note, title, firebaseID }) => (
-                  <tr key={firebaseID} className="hover:bg-gray-100">
-                    <td className="border px-4 py-2">{title}</td>
-                    <td className="border px-4 py-2 text-right">{amount}</td>
-                    <td className="border px-4 py-2 text-right">{category}</td>
-                    <td className="border px-4 py-2 text-right">
-                      {date.toDate().toLocaleDateString()}
-                    </td>
-                    <td className="border px-4 py-2 text-right">{note}</td>
-                    <td className="border px-4 py-2 text-right">
-                      <button
+                  <TableRow key={firebaseID}>
+                    <TableCell>{title}</TableCell>
+                    <TableCell>{amount}</TableCell>
+                    <TableCell>{category}</TableCell>
+                    <TableCell>{date.toDate().toLocaleDateString()}</TableCell>
+                    <TableCell>{note}</TableCell>
+                    <TableCell className=" text-right">
+                      <Button
                         onClick={() => deleteExpense(firebaseID)}
-                        className="bg-red-500 text-white rounded px-4 py-1 hover:bg-red-600 transition"
+                        variant={"destructive"}
                       >
                         Delete
-                      </button>
-                    </td>
-                    <td className="border px-4 py-2 text-right">
+                      </Button>
+                    </TableCell>
+                    <TableCell className=" text-right">
                       <Link href={`dashboard/edit/${firebaseID}`}>
-                        <button className="bg-yellow-500 text-white rounded px-4 py-1 hover:bg-yellow-600 transition">
-                          Edit
-                        </button>
+                        <Button>Edit</Button>
                       </Link>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 )
               )}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       ) : (
-        <div className="text-center text-gray-500">No expense</div>
+        <div className="text-center">No expense</div>
       )}
+  {/* {console.log(doghnutData)} */}
+
     </>
   );
 }

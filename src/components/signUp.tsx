@@ -24,23 +24,20 @@ function SignUp() {
     <form>
       <div className="grid gap-2">
         <div className="grid gap-1">
-          <Label className="sr-only" htmlFor="name">
-            Name
-          </Label>
+          <Label htmlFor="name">Name</Label>
           <Input
             id="name"
             placeholder="Uzair Rehan"
-            type="name"
+            type="text"
             autoComplete="name"
             disabled={isLoading}
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </div>
         <div className="grid gap-1">
-          <Label className="sr-only" htmlFor="email">
-            Email
-          </Label>
+          <Label htmlFor="email">Email</Label>
           <Input
             id="email"
             placeholder="uzairrehann@gmail.com"
@@ -49,21 +46,21 @@ function SignUp() {
             disabled={isLoading}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
         </div>
         <div className="grid gap-1">
-          <Label className="sr-only" htmlFor="password">
-            Password
-          </Label>
+          <Label htmlFor="password">Password</Label>
           <Input
             id="password"
-            placeholder="Password"
+            placeholder="••••••••"
             type="password"
             autoCapitalize="none"
             autoComplete="new-password"
             disabled={isLoading}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <Button disabled={isLoading} onClick={handleSubmit}>

@@ -1,10 +1,20 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import {Card,CardHeader, CardTitle, CardContent, CardFooter,} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger,SelectValue,} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { db } from "@/firebase/firebasefirestore";
 import { CategoryType, ExpenseType } from "@/types/types";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from "next/navigation";
+import { MouseEvent } from "react";
 import { useEffect, useState } from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { toast } from "@/hooks/use-toast";
+
 
 export default function Page({ params }: { params: { slug: string } }) {
   const [loading, setLoading] = useState(true);
@@ -16,6 +26,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [category, setCategory] = useState("None");
   const [note, setNote] = useState<string>("");
   const route = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
 
   useEffect(() => {
     if (selID) {
@@ -45,9 +57,10 @@ export default function Page({ params }: { params: { slug: string } }) {
     }
   }, [selID]);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    if (title && amount && category !== "None" && note) {
+    if (title && amount && category !== "None") {
+      setIsLoading(true)
       if (expense) {
         try {
           const expenseRef = doc(db, "expenses", selID as string);
@@ -58,14 +71,27 @@ export default function Page({ params }: { params: { slug: string } }) {
             note,
           });
           console.log("Expense updated successfully");
+          toast({
+            title: "Expense Updated !",
+          })
           route.push("/dashboard");
         } catch (error) {
           setError("Failed to update expense");
+          toast({
+            variant: "destructive" ,
+            title: "Cant Update Expense !"
+          })
           console.error(error);
         }
       }
+      setIsLoading(false)
+
     } else {
       console.log("Please enter full information");
+      toast({
+        variant: "destructive" ,
+        title: "Please enter full information !"
+      })
     }
   }
 
@@ -76,62 +102,77 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex flex-col p-5 gap-4">
-        <input
-          id="title"
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <Card className="lg:w-2/3 md:w-1/2 sm:w-3/4 m-auto flex gap-2 flex-col h-3/4 justify-center border-none shadow-none">
+      <CardHeader>
+          <CardTitle>Edit Expense</CardTitle>
+        </CardHeader>
+        <CardContent className="flex gap-2 flex-col w-full">
+          <Label htmlFor="text">
+            Title :
+            <Input
+              className="mt-1"
+              id="title"
+              type="text"
+              placeholder="Title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
+          </Label>
+          <Label htmlFor="text">
+            Amount :
+            <Input
+              className="mt-1"
+              id="amount"
+              type="number"
+              placeholder="Amount"
+              value={amount}
+              onChange={(e) => setAmount(Number(e.target.value))}
+              required
+            />
+          </Label>
 
-        <input
-          id="amount"
-          type="number"
-          placeholder="Amount"
-          value={amount}
-          onChange={(e) => setAmount(Number(e.target.value))}
-          required
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+          <Label htmlFor="text">
+            Category :
+            <Select
+              value={category}
+              onValueChange={(e) => setCategory(e as CategoryType)}
+              required
+            >
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Category" />
+              </SelectTrigger>
 
-        <div className="relative">
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value as CategoryType)}
-            required
-            className="block w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="" disabled>
-              Category
-            </option>
-            <option value="Food">Food</option>
-            <option value="Transport">Transport</option>
-            <option value="Bills">Bills</option>
-            <option value="Education">Education</option>
-            <option value="Investments">Investments</option>
-            <option value="Luxuries">Luxuries</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
+              <SelectContent>
+                <SelectItem value="Food">Food</SelectItem>
+                <SelectItem value="Transport">Transport</SelectItem>
+                <SelectItem value="Bills">Bills</SelectItem>
+                <SelectItem value="Education">Education</SelectItem>
+                <SelectItem value="Investments">Investments</SelectItem>
+                <SelectItem value="Luxuries">Luxuries</SelectItem>
+                <SelectItem value="Other">Other</SelectItem>
+              </SelectContent>
+            </Select>
+          </Label>
 
-        <textarea
-          id="note"
-          placeholder="Optional Note"
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          className="border border-gray-300 rounded p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        ></textarea>
-
-        <button
-          type="submit"
-          className="bg-green-500 text-white rounded px-4 py-2 hover:bg-green-600 transition"
-        >
-          Save Expense
-        </button>
-      </form>
+          <Label htmlFor="text">
+            Note :
+            <Textarea
+              className="mt-1"
+              id="note"
+              placeholder="Add Note"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+            ></Textarea>
+          </Label>
+        </CardContent>
+        <CardFooter>
+          <Button onClick={handleSubmit}>
+          {isLoading && <AiOutlineLoading3Quarters className="mr-2 h-4 w-4 transform rotate-45" />}
+            
+            Save</Button>
+        </CardFooter>
+      </Card>
     </>
   );
 }
