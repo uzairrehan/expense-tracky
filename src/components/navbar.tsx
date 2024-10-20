@@ -22,12 +22,12 @@ export default function Navbar() {
   return (
     <nav className="border-b">
       <div className="flex items-center justify-between p-4">
-        <Link href="/" className="flex items-center space-x-2">
+        <Link href="/" className="flex items-center space-x-2 w-[50px] ">
           <Image
-            src={"/images/Expense.png"}
+            src={"/images/logo.png"}
             alt={"logo"}
-            width={50}
-            height={50}
+            width={150}
+            height={150}
           />
         </Link>
         <div className="hidden md:block">

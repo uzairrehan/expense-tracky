@@ -55,7 +55,7 @@ function SignIn() {
             Forgot password?
           </p>
         </div>
-        <div className="grid gap-1">
+        <div className="grid gap-1 mb-5">
           <Label htmlFor="password">Password</Label>
           <Input
             id="password"

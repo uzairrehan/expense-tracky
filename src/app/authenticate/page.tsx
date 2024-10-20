@@ -36,14 +36,14 @@ export default function AuthTabs() {
   return (
     <div className="flex justify-center items-center h-dvh">
       <Tabs defaultValue="signin" className="w-[400px] m-4 ">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-2 mb-8">
           <TabsTrigger value="signin">Sign In</TabsTrigger>
           <TabsTrigger value="signup">Sign Up</TabsTrigger>
         </TabsList>
         <TabsContent value="signin">
           <SignIn />
         </TabsContent>
-        <TabsContent value="signup">
+        <TabsContent value="signup" >
           <SignUp />
         </TabsContent>
         <div className="relative my-4">
@@ -58,7 +58,7 @@ export default function AuthTabs() {
         </div>
         <Button
           className="w-full"
-          variant="outline"
+          variant="destructive"
           type="button"
           disabled={isLoading}
           onClick={Google}
