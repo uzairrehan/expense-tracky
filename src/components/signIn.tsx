@@ -67,9 +67,7 @@ function SignIn() {
           />
         </div>
         <Button disabled={isLoading} onClick={handleSubmit}>
-          {isLoading && (
-            <AiOutlineLoading3Quarters className="mr-2 h-4 w-4" />
-          )}
+          {isLoading && <AiOutlineLoading3Quarters className="mr-2 h-4 w-4" />}
           Sign In
         </Button>
       </div>

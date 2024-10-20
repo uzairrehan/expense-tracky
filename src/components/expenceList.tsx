@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 import Link from "next/link";
 
-
 function ExpenseList() {
   const [expense, setExpense] = useState<DocumentData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -130,13 +129,12 @@ function ExpenseList() {
     return isCategoryMatch && isAmountMatch;
   });
 
-
   return (
     <>
       <div className="flex gap-2 m-2 mb-2">
         {/* <Doughnutt dataa={doghnutData} className="w-1/2" responsive /> */}
       </div>
-  
+
       <div className="flex gap-2 m-2 mb-2">
         <div className="relative w-1/2">
           <select
@@ -156,7 +154,7 @@ function ExpenseList() {
             <option value="Other">Other</option>
           </select>
         </div>
-  
+
         <input
           className="w-1/2 p-2 border rounded shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
           id="outlined-basic"
@@ -167,7 +165,7 @@ function ExpenseList() {
           required
         />
       </div>
-  
+
       {loading ? (
         <div className="text-center text-gray-500">Loading...</div>
       ) : filteredExpenses.length > 0 ? (
@@ -221,7 +219,6 @@ function ExpenseList() {
       )}
     </>
   );
-  
 }
 
 export default ExpenseList;

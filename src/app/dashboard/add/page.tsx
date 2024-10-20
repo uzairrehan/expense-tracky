@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import React from "react";
+import { MouseEvent } from "react";
 
 function Add() {
   const [title, setTitle] = useState("");
@@ -24,7 +24,7 @@ function Add() {
   const [note, setNote] = useState("");
   const [date] = useState(new Date());
   const route = useRouter();
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: MouseEvent<HTMLButtonElement>) {
     if (amount && title && category && note) {
       e.preventDefault();
       saveExpense(title, amount, date, category, note);
@@ -43,7 +43,6 @@ function Add() {
     <>
       <Input
         id="title"
-
         type="text"
         placeholder="Title"
         value={title}
@@ -62,7 +61,7 @@ function Add() {
 
       <Select
         value={category}
-        onChange={(e) => setCategory(e.target.value as CategoryType)}
+        onValueChange={(e) => setCategory(e as CategoryType)}
         required
       >
         <SelectTrigger>
@@ -82,7 +81,7 @@ function Add() {
 
       <Textarea
         id="note"
-        placeholder="SelectItemal Note"
+        placeholder="Add Note"
         value={note}
         onChange={(e) => setNote(e.target.value)}
       ></Textarea>
