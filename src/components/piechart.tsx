@@ -54,7 +54,7 @@ export function MyPieChart({ doghnutData }:any) {
 
   const chartConfig = {
     amount: {
-      label: "Amount",
+      label: "Total Amount",
     },
   };
 
@@ -106,7 +106,7 @@ export function MyPieChart({ doghnutData }:any) {
                               y={(viewBox.cy || 0) + 24}
                               className="fill-muted-foreground"
                             >
-                              Amount
+                              Total Amount
                             </tspan>
                           </text>
                         );
