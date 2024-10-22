@@ -19,7 +19,6 @@ export function AuthContextProvider({ children }: AuthContextProviderType) {
         onAuthStateChanged(auth, (loggedInUser) => {
             if (loggedInUser) {
                 setUser(loggedInUser);
-                // route.push("/dashboard");
             }
             else {
                 console.log('inside onauthstatechange else statement');

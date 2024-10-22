@@ -50,14 +50,10 @@ export default function Navbar() {
                   Add
                 </NavigationMenuLink>
               </NavigationMenuItem>
-
-              <NavigationMenuItem className="text-destructive">
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
-                  onClick={signOutFunc}
-                >
+              <NavigationMenuItem>
+                <Button variant={"destructive"} onClick={signOutFunc}>
                   Logout
-                </NavigationMenuLink>
+                </Button>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
@@ -88,10 +84,10 @@ export default function Navbar() {
               <Button
                 className="text-lg font-medium "
                 variant={"destructive"}
-                onClick={() =>{
-                   setIsOpen(false)
-                   signOutFunc()
-                  }}
+                onClick={() => {
+                  setIsOpen(false);
+                  signOutFunc();
+                }}
               >
                 Logout
               </Button>
@@ -102,4 +98,3 @@ export default function Navbar() {
     </nav>
   );
 }
- 

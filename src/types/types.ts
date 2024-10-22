@@ -6,8 +6,6 @@ export type userSaveType = {
   uid: string;
 };
 
-
-
 export type inputElementType = {
   e: React.ChangeEvent<HTMLInputElement>;
 };
@@ -20,9 +18,14 @@ export type authContextType = {
   setAuthenticatedUser: Dispatch<SetStateAction<object>>;
 };
 
-
-
-export type CategoryType = "Food" | "Transport" | "Bills" | "Education" | "Investments" | "Luxuries" | "Other";
+export type CategoryType =
+  | "Food"
+  | "Transport"
+  | "Bills"
+  | "Education"
+  | "Investments"
+  | "Luxuries"
+  | "Other";
 
 export type UserType = {
   email: string;
@@ -30,39 +33,31 @@ export type UserType = {
   uid: string;
 };
 
-
-
 export type UserTypee = {
-  email: string | null,
-  uid: string
-  photoURL :string | null
-}
+  email: string | null;
+  uid: string;
+  photoURL: string | null;
+};
 
 export type AuthContextProviderType = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export type AuthContextType = {
-  user: UserTypee | null
-}
+  user: UserTypee | null;
+};
 
+export type ExpenseType = {
+  id: string;
+  title: string;
+  amount: number;
+  category: string;
+  date: Date;
+  note: string;
+  firebaseID: string;
+};
 
-
-
-
-
-export type ExpenseType= {
-    id:string ;
-    title: string;
-    amount:number;
-    category: string;
-    date:Date;
-    note: string;
-    firebaseID :string;
-}
-
-
-export type setStateType ={
-  setPageState : (pageState:string)=>void;
-  pageState : string
-}
+export type setStateType = {
+  setPageState: (pageState: string) => void;
+  pageState: string;
+};
