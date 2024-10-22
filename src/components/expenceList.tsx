@@ -189,8 +189,6 @@ function ExpenseList() {
       ) : (
         <div className="text-center">No expense</div>
       )}
-  {/* {console.log(doghnutData)} */}
-
     </>
   );
 }

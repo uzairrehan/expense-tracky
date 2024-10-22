@@ -10,9 +10,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-// Define the type for the data item
 type DoughnutDataItem = {
-  category: keyof typeof categoryColors; // Limits to the keys of categoryColors
+  category: keyof typeof categoryColors;
   amount: number;
 };
 
@@ -22,13 +21,14 @@ type ChartDataItem = {
   fill: string;
 };
 
-// Ensure that your category colors are typed properly
 const categoryColors: Record<string, string> = {
   Luxuries: "hsl(var(--chart-1))",
   Transport: "hsl(var(--chart-2))",
   Investments: "hsl(var(--chart-3))",
   Bills: "hsl(var(--chart-4))",
   Food: "hsl(var(--chart-5))",
+  Education: "lightGreen",
+  Other : "lightBlue"
 };
 
 
